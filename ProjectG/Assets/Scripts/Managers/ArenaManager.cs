@@ -19,7 +19,7 @@ public class ArenaManager : Singleton<ArenaManager>
         SceneManager.activeSceneChanged += OnSceneChanged;
 
         //Debug
-        Arena newArena = new Arena("/Scenes/Dev/TestScene", "TestScene");
+        Arena newArena = new Arena("/Scenes/Dev/BrawlDemo", "BrawlDemo");
         m_AllArenas.Add(newArena);
     }
 
