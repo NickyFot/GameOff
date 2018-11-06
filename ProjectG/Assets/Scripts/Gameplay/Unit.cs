@@ -21,7 +21,7 @@ public abstract class Unit
 
 
     // -- Gameplay Vars
-    // To-DO: Expose a scriptable object or something (coonet to Unit Data)
+    // To-DO: Expose a scriptable object or something (conect to Unit Data)
     private float m_RotationSpeed = 0.2f;
 
     // -- Movement Vars
