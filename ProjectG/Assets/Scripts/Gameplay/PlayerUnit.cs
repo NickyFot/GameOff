@@ -11,7 +11,7 @@ public class PlayerUnit : Unit
 
     public PlayerUnit(string prefabName, Vector3 spawnPos) : base(prefabName)
     {
-        Debugger.Log("Creating new " + prefabName + "unit", DebuggerTags.DBTag.Unit);
+        Debug.Log("Creating new " + prefabName + "unit");
         UnitParentObj.transform.position = spawnPos;
     }
 
