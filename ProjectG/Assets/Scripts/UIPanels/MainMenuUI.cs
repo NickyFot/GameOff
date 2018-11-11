@@ -7,7 +7,7 @@ public class MainMenuUI : UIPanel
     //-----------------------------------------------------------------
 
     private Button PlayBtn;
-    private Button OptionsBtn;
+    private Button CreditsBtn;
     private Button ExitBtn;
 
     //-----------------------------------------------------------------
@@ -23,13 +23,13 @@ public class MainMenuUI : UIPanel
     {
         PanelObj = UIManager.MainCanvas.transform.Find("MainMenu").gameObject;
 
-        PlayBtn = PanelObj.transform.Find("PlayBtn").GetComponent<Button>();
+        PlayBtn = PanelObj.transform.Find("PlayButton").GetComponent<Button>();
         SetButtonMethod(PlayBtn, PlayAction);
 
-        OptionsBtn = PanelObj.transform.Find("OptionsBtn").GetComponent<Button>();
-        SetButtonMethod(OptionsBtn, OptionsAction);
+        CreditsBtn = PanelObj.transform.Find("CreditsButton").GetComponent<Button>();
+        SetButtonMethod(CreditsBtn, CreditsAction);
 
-        ExitBtn = PanelObj.transform.Find("ExitBtn").GetComponent<Button>();
+        ExitBtn = PanelObj.transform.Find("ExitButton").GetComponent<Button>();
         SetButtonMethod(ExitBtn, ExitAction);
     }
 
@@ -37,18 +37,23 @@ public class MainMenuUI : UIPanel
 
     private void PlayAction()
     {
+        Debug.Log("Pressed Options");
+
         UIManager.Instance.MainMenu.HidePanel();
-        UIManager.Instance.WaitForTransitionToEnd(TransitionIntoGame);
+        UIManager.Instance.PlaySettings.ShowPanel();
+        //UIManager.Instance.WaitForTransitionToEnd(TransitionIntoGame);
     }
 
-    private void TransitionIntoGame()
-    {
-        ArenaManager.Instance.TransitionToArena();
-    }
+    //private void TransitionIntoGame()
+    //{
+    //    ArenaManager.Instance.TransitionToArena();
+    //}
 
-    private void OptionsAction()
+    private void CreditsAction()
     {
         Debug.Log("Pressed Options");
+        UIManager.Instance.MainMenu.HidePanel();
+        UIManager.Instance.Credits.ShowPanel();
     }
 
     private void ExitAction()

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ea7b908cbbb62a948af0191ee3ed11e2
+guid: 3b41c8ef8436c404097879fe6d96cfb4
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Zombie
+  fontName: VTC-FreehandTattooOne
   fontNames:
-  - Zombie
+  - VTC-FreehandTattooOne
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

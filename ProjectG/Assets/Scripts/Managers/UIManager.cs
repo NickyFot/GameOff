@@ -8,6 +8,8 @@ public class UIManager : Singleton<UIManager>
     public static GameObject MainCanvas;
 
     public MainMenuUI MainMenu;
+    public PlaySettingsUI PlaySettings;
+    public CreditsUI Credits;
 
     private bool m_WaitingToEnd = false;
     private Action OnTransitionsEnd;
@@ -68,6 +70,8 @@ public class UIManager : Singleton<UIManager>
     {
         MainCanvas = GameObject.Find("Canvas");
         MainMenu = new MainMenuUI();
+        PlaySettings = new PlaySettingsUI();
+        Credits = new CreditsUI();
     }
 
     //-----------------------------------------------------------------
