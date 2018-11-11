@@ -60,12 +60,12 @@ public class InputManager : Singleton<InputManager>
 
     private void AttackRightArmCommand(Unit u)
     {
-        u.AttackCommand(UnitLimb.LimbType.RIGHT_ARM);
+        u.QueueAttackCommand(UnitLimb.LimbType.RIGHT_ARM);
     }
 
     private void AttackLeftArmCommand(Unit u)
     {
-        u.AttackCommand(UnitLimb.LimbType.LEFT_ARM);
+        u.QueueAttackCommand(UnitLimb.LimbType.LEFT_ARM);
     }
 
     private void BlockCommand(Unit u)

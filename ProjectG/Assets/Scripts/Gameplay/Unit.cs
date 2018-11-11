@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using RootMotion.FinalIK;
-using System.Collections;
+using System;
+using System.Collections.Generic;
 using RootMotion.Dynamics;
 
 using Limb = UnitLimb.LimbType;
+using Object = UnityEngine.Object;
 
 public abstract class Unit
 {
@@ -19,10 +21,13 @@ public abstract class Unit
     protected Animator UnitAnimator;
     protected FullBodyBipedIK BodyIK;
 
-
     // -- Gameplay Vars
     // To-DO: Expose a scriptable object or something (conect to Unit Data)
     private float m_RotationSpeed = 0.2f;
+
+    protected Queue<QueuedCommand> p_CommandQueue = new Queue<QueuedCommand>();
+    private float m_QueueTimer;
+    private float m_QueueTrigger;
 
     // -- Movement Vars
     private float m_CurrentRotAngle;
@@ -30,16 +35,6 @@ public abstract class Unit
     private float m_TargetRotVel;
 
     // -- IK Vars
-
-    //Static Limbs
-    protected LimbSlot p_HeadSlot;
-    protected LimbSlot p_TorsoSlot;
-
-    // Controllable Limbs
-    protected LimbSlot p_RightArmSlot; 
-    protected LimbSlot p_LeftArmSlot; 
-    protected LimbSlot p_RightLegSlot; 
-    protected LimbSlot p_LeftLegSlot;
 
     //-- CONSTRUCTOR -------------------------------------------------------------
 
@@ -51,7 +46,41 @@ public abstract class Unit
         BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
     }
 
-    //-- COMMANDS ----------------------------------------------------------------
+    //-- UPDATE ----------------------------------------------------------------
+
+    public void Update()
+    {
+
+    }
+
+    //-- COMMAND QUEUE -----------------------------------------------------------
+
+    public void UpdateQueue()
+    {
+        QueueLogic();
+    }
+
+    public void ResetQueue()
+    {
+        m_QueueTrigger = 0;
+        m_QueueTimer = 0;
+        p_CommandQueue.Clear();
+    }
+
+    protected virtual void QueueLogic()
+    {
+        m_QueueTimer += Time.deltaTime;
+        if(m_QueueTimer > m_QueueTrigger)
+        {
+            QueuedCommand command = p_CommandQueue.Dequeue();
+            command.Execute();
+            command = null;
+            m_QueueTrigger = p_CommandQueue.Peek().ExecutionTime;
+            m_QueueTimer = 0;
+        }
+    }
+
+  //-- COMMANDS ----------------------------------------------------------------
 
     #region Commands
 
@@ -97,26 +126,19 @@ public abstract class Unit
         //UnitObj.transform.Rotate(0, m_TargetRotAngle, 0);
     }
 
+    public void QueueAttackCommand(Limb limb)
+    {
+        Limb l = limb;
+        QueuedCommand com = new QueuedCommand(()=> AttackCommand(l), 1); // To-Do Read attack data
+        p_CommandQueue.Enqueue(com);
+    }
+
     public void AttackCommand(Limb limb)
     {
-        //LimbSlot attackingLimbSlot = GetLimbSlot(limb);
-        //if(attackingLimbSlot == null) return;
-        //if(!attackingLimbSlot.IsControllable || !attackingLimbSlot.IsActive) return;
-
         string animID = AnimationID.GetAttackLimb(limb);
         if(animID == null) return;
 
         UnitAnimator.SetTrigger(animID);
-    }
-
-    public void ControlLimbCommand(Limb limbSlot)
-    {
-        LimbSlot attackingLimbSlot = GetLimbSlot(limbSlot);
-        if(attackingLimbSlot == null) return;
-        if(!attackingLimbSlot.IsControllable || !attackingLimbSlot.IsActive) return;
-
-        ControllableUnitLimb limb = attackingLimbSlot.AttachedLimb as ControllableUnitLimb;
-
     }
 
     #endregion
@@ -128,73 +150,26 @@ public abstract class Unit
 
     }
 
-    //********************** DEBUG ****************************
-    public MuscleRemoveMode removeMuscleMode = MuscleRemoveMode.Explode;
-    public float unpin = 10f;
-    public float force = 10f;
-    public ParticleSystem particles;
-
-    public void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            // Raycast to find a ragdoll collider
-            RaycastHit hit = new RaycastHit();
-            if(Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("CharacterController")))
-            {
-                MuscleCollisionBroadcaster broadcaster = hit.collider.attachedRigidbody.GetComponent<MuscleCollisionBroadcaster>();
-
-                // If is a muscle...
-                if(broadcaster != null)
-                {
-                    broadcaster.Hit(unpin, ray.direction * force, hit.point);
-
-                    // Remove the muscle and its children
-                    broadcaster.puppetMaster.RemoveMuscleRecursive(broadcaster.puppetMaster.muscles[broadcaster.muscleIndex].joint, true, true, removeMuscleMode);
-                }
-                else
-                {
-                    // Not a muscle (any more)
-                    var joint = hit.collider.attachedRigidbody.GetComponent<ConfigurableJoint>();
-                    if(joint != null) GameObject.Destroy(joint);
-
-                    // Add force
-                    hit.collider.attachedRigidbody.AddForceAtPosition(ray.direction * force, hit.point);
-                }
-
-                // Particle FX
-                //particles.transform.position = hit.point;
-                //particles.transform.rotation = Quaternion.LookRotation(-ray.direction);
-                //particles.Emit(5);
-            }
-        }
-    }
-    //********************** DEBUG ****************************
 
     //-- HELPER FUNCTIONS --------------------------------------------------------
 
-    public LimbSlot GetLimbSlot(Limb limb)
-    {
-        switch(limb)
-        {
-            case Limb.HEAD:
-                return p_HeadSlot;
-            case Limb.TORSO:
-                return p_TorsoSlot;
-            case Limb.RIGHT_ARM:
-                return p_RightArmSlot;
-            case Limb.LEFT_ARM:
-                return p_LeftArmSlot;
-            case Limb.RIGHT_LEG:
-                return p_RightLegSlot;
-            case Limb.LEFT_LEG:
-                return p_LeftLegSlot;
-            default:
-                return null;
-        }
-    }
 
     //----------------------------------------------------------------------------
+
+    protected class QueuedCommand
+    {
+        private Action m_Command;
+        public float ExecutionTime { get; private set; }
+
+        public QueuedCommand(Action command, float executionTime)
+        {
+            m_Command = command;
+            ExecutionTime = executionTime;
+        }
+
+        public void Execute()
+        {
+            m_Command();
+        }
+    }
 }

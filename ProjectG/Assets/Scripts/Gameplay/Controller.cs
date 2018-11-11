@@ -8,14 +8,14 @@ public class Controller
     public float AxisX;
     public float AxisY;
 
-    public Command ButtonA;
-    public Command ButtonB;
-    public Command ButtonX;
-    public Command ButtonY;
-    public Command ButtonLB;
-    public Command ButtonRB;
-    public Command ButtonBack;
-    public Command ButtonStart;
+    public InputCommand ButtonA;
+    public InputCommand ButtonB;
+    public InputCommand ButtonX;
+    public InputCommand ButtonY;
+    public InputCommand ButtonLB;
+    public InputCommand ButtonRB;
+    public InputCommand ButtonBack;
+    public InputCommand ButtonStart;
 
     public bool ActivePlayer;
 
@@ -28,14 +28,14 @@ public class Controller
     {
         m_ControllerNumber = controllerNumber * 20;
 
-        ButtonA = new Command();
-        ButtonB = new Command();
-        ButtonX = new Command();
-        ButtonY = new Command();
-        ButtonLB = new Command();
-        ButtonRB = new Command();
-        ButtonBack = new Command();
-        ButtonStart = new Command();
+        ButtonA = new InputCommand();
+        ButtonB = new InputCommand();
+        ButtonX = new InputCommand();
+        ButtonY = new InputCommand();
+        ButtonLB = new InputCommand();
+        ButtonRB = new InputCommand();
+        ButtonBack = new InputCommand();
+        ButtonStart = new InputCommand();
 
         ActivePlayer = false;
     }
