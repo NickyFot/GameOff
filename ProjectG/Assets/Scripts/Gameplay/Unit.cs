@@ -25,6 +25,23 @@ public abstract class Unit
     // To-DO: Expose a scriptable object or something (conect to Unit Data)
     private float m_RotationSpeed = 0.2f;
 
+    public bool HasFinishedTurn
+    {
+        get
+        {
+            if(p_CommandQueue == null) return false;
+            return p_CommandQueue.Count >= Data.MaxQueueInput;
+        }
+    }
+    protected int p_CommandsQueued
+    {
+        get
+        {
+            if(p_CommandQueue == null) return 0;
+            return p_CommandQueue.Count;
+        }
+    }
+
     protected Queue<QueuedCommand> p_CommandQueue = new Queue<QueuedCommand>();
     private float m_QueueTimer;
     private float m_QueueTrigger;
@@ -128,6 +145,7 @@ public abstract class Unit
 
     public void QueueAttackCommand(Limb limb)
     {
+        if(HasFinishedTurn) return;
         Limb l = limb;
         QueuedCommand com = new QueuedCommand(()=> AttackCommand(l), 1); // To-Do Read attack data
         p_CommandQueue.Enqueue(com);
