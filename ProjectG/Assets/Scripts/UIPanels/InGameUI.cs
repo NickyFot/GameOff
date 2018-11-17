@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class InGameUI : UIPanel
 {
-    enum PLAYER_ID { ONE, TWO, THREE, FOUR };
     private GameObject m_HPPrefab;
     
     private int m_PlayerCount = 0;
@@ -24,6 +23,8 @@ public class InGameUI : UIPanel
     public void CreatePanel(string playerName)
     {
         PlayerPanel Panel = new PlayerPanel(m_HPPrefab, this.PanelObj.transform);
+
+        Panel.SetPlayerName(playerName);
 
         m_PlayerCount++;
 
@@ -50,6 +51,7 @@ public class InGameUI : UIPanel
         private GameObject m_ParentObj;
         private Image HPbar;
         private TMPro.TextMeshProUGUI PlayerName;
+        private RectTransform m_RectTransform ;
         public Vector2 PlayerPosition;
 
         public PlayerPanel(GameObject prefab, Transform parent)
@@ -58,17 +60,17 @@ public class InGameUI : UIPanel
             m_ParentObj.transform.parent = parent;
             PlayerName = m_ParentObj.transform.Find("Text").GetComponent<TMPro.TextMeshProUGUI>();
             HPbar = m_ParentObj.transform.Find("Bar level").GetComponent<Image>();
-
+            m_RectTransform = m_ParentObj.transform.Find("").GetComponent<RectTransform>();
         }
 
         public void SetPosition(Vector2 Position)
         {
-            PlayerPosition = Position;
+            m_RectTransform.anchoredPosition = Position;
         }
 
-        private void SetPlayerName(string Player_ID)
+        public void SetPlayerName(string Player_ID)
         {
-            PlayerName.text = "Player " + Player_ID;
+            PlayerName.text = Player_ID;
         }
 
         private void UpdateHPBar(float hpPercentage)

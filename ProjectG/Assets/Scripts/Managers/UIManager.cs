@@ -71,6 +71,11 @@ public class UIManager : Singleton<UIManager>
 
         MainMenu = new MainMenuUI();
         GameUI = new InGameUI();
+        CreatePlayerUIPanel("mitsos");
+        CreatePlayerUIPanel("Mpampis");
+        CreatePlayerUIPanel("NANA");
+        CreatePlayerUIPanel("INOVI");
+
     }
 
     //-----------------------------------------------------------------
