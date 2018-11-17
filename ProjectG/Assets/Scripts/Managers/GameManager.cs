@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour
 
         Fight.UpdateFight();
 
+        AudioM.Update();
+
         if(CurrentState == null) return;
         CurrentState.Update();
     }
