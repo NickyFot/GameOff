@@ -8,6 +8,7 @@ public class UIManager : Singleton<UIManager>
     public static GameObject MainCanvas;
 
     public MainMenuUI MainMenu;
+    public InGameUI GameUI;
 
     private bool m_WaitingToEnd = false;
     private Action OnTransitionsEnd;
@@ -64,10 +65,19 @@ public class UIManager : Singleton<UIManager>
 
     //-----------------------------------------------------------------
 
-    public void SetupMainMenu()
+    public void SetupUI()
     {
         MainCanvas = GameObject.Find("Canvas");
+
         MainMenu = new MainMenuUI();
+        GameUI = new InGameUI();
+    }
+
+    //-----------------------------------------------------------------
+    
+    public void CreatePlayerUIPanel(string playerName)
+    {
+        GameUI.CreatePanel(playerName);
     }
 
     //-----------------------------------------------------------------

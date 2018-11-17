@@ -10,6 +10,8 @@ public class FightManager : Singleton<FightManager>
     public List<Vector3> SpawnPointList = new List<Vector3>();
     public List<Unit> AliveFightersList = new List<Unit>();
 
+    enum PLAYER_ID { ONE, TWO, THREE, FOUR };
+
     //-----------------------------------------------------------------
 
     // TO - DO: ADD LEVEL PARAM

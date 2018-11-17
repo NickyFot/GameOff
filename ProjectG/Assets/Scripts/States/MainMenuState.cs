@@ -25,7 +25,6 @@ public class MainMenuState : GameState
 
     private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
-        UIManager.Instance.SetupMainMenu();
         UIManager.Instance.MainMenu.ShowPanel();
     }
 

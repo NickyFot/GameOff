@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         UI = UIManager.Instance;
+        UIManager.Instance.SetupUI();
+        DontDestroyOnLoad(UIManager.MainCanvas);
         InputM = InputManager.Instance;
         CameraM = CameraManager.Instance;
         Fight = FightManager.Instance;
