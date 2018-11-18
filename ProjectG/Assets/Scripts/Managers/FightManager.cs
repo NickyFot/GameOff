@@ -21,6 +21,7 @@ public class FightManager : Singleton<FightManager>
         InputManager.Instance.AssignUnitToNextController(fighter1);
 
         CameraManager.Instance.InitCamera(Vector3.zero);
+        CameraManager.Instance.SetCameraPositionBoundaries(14, -14f, 15f, -15f);
         CameraManager.Instance.AddTarget(fighter1.UnitObj);
 
         Unit fighter2 = new NPCUnit("PlayerUnit", SpawnPointList[1]);
