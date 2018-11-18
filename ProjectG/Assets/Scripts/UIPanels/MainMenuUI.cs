@@ -62,4 +62,20 @@ public class MainMenuUI : UIPanel
     }
 
     //-----------------------------------------------------------------
+
+    public override void ShowPanel()
+    {
+        base.ShowPanel();
+        AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Blow_The_Man_Down"), AudioManager.ChannelType.MUSIC, true);
+        AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.MUSIC, 0);
+        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 1, 2);
+    }
+
+    public override void HidePanel()
+    {
+        base.HidePanel();
+        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 0, 1.5f, delegate { AudioManager.Instance.StopChannel(AudioManager.ChannelType.MUSIC); });
+    }
+
+    //-----------------------------------------------------------------
 }

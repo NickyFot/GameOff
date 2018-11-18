@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     private FightManager Fight;
     private InputManager InputM;
     private CameraManager CameraM;
+    private AudioManager AudioM;
 
     #endregion
 
@@ -60,6 +61,9 @@ public class GameManager : MonoBehaviour
         InputM = InputManager.Instance;
         CameraM = CameraManager.Instance;
         Fight = FightManager.Instance;
+        AudioM = AudioManager.Instance;
+        AudioM.Init();
+        DontDestroyOnLoad(AudioM.GlobalSourceObj);
 
         CurrentState = null;
         //TransitionToNewState(State<MainMenuState>());
@@ -76,6 +80,8 @@ public class GameManager : MonoBehaviour
         InputM.Update();
 
         Fight.UpdateFight();
+
+        AudioM.Update();
 
         if(CurrentState == null) return;
         CurrentState.Update();

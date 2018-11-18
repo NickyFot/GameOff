@@ -51,7 +51,10 @@ public class CameraManager : Singleton<CameraManager>
         MainCamera.transform.position = initPosition;
         SetCameraZoomBoundaries(minZoom, maxZoom);
         SetCameraZoom(maxZoom * 0.5f);
-        SetCameraPositionBoundaries(6f, -6f, 10f, -10f);
+        if(m_EastMostFrustrum == 0f && m_WestMostFrustrum == 0f && m_NortMostFrustrum == 0f && m_SouthMostFrustrum == 0f)
+        {
+            SetCameraPositionBoundaries(6f, -6f, 10f, -10f);
+        }        
     }
 
     public void InitCamera(Vector3 initPosition, float minZoom, float maxZoom, params GameObject[] cameraTargets)
@@ -60,6 +63,12 @@ public class CameraManager : Singleton<CameraManager>
         AddTarget(cameraTargets);
     }
 
+    public void InitCamera(Vector3 initPosition, float EastMostFrostrum, float WestMostFrostrum, float NorthMostFrostrum, float SouthMostFrostrum, params GameObject[] cameraTargets)
+    {
+        AddTarget(cameraTargets);
+        InitCamera(initPosition);
+        SetCameraPositionBoundaries(EastMostFrostrum, WestMostFrostrum, NorthMostFrostrum, SouthMostFrostrum);
+    }
     //-- Update ----------------------------------------------------------
 
     public void UpdateCamera()
@@ -121,6 +130,8 @@ public class CameraManager : Singleton<CameraManager>
 
     public void SetCameraPositionBoundaries(float east, float west, float north, float south)
     {
+        m_MaxCameraZoom = Mathf.Max(east - west, north - south) * 0.5f * 1.732f; //a*sqrt(3)/2 to get max height
+        m_MinCameraZoom = 4;
         m_EastMostFrustrum = east;
         m_WestMostFrustrum = west;
         m_NortMostFrustrum = north;

@@ -10,6 +10,8 @@ public class InputManager : Singleton<InputManager>
     private List<Controller> m_ControllerList = new List<Controller>();
     private List<Controller> m_ActiveControllerList = new List<Controller>();
 
+    public bool InputEnabled { get; set; }
+
     //-----------------------------------------------------------------
 
     public InputManager()
@@ -24,6 +26,7 @@ public class InputManager : Singleton<InputManager>
 
     public void Update()
     {
+        if(!InputEnabled) return;
         for(int i = 0; i < m_ActiveControllerList.Count; i++)
         {
             if(m_ActiveControllerList[i].GetUnit() == null) continue;
