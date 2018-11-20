@@ -61,5 +61,4 @@ public class MainMenuUI : UIPanel
         Application.Quit();
     }
 
-    //-----------------------------------------------------------------
 }
