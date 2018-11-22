@@ -112,7 +112,7 @@ ModelImporter:
     4300010: Eyes
     4300012: Shoes
     4300014: Laces
-    7400000: Mixamo_Tanbt
+    7400000: Mixamo_Taunt
     9500000: //RootNode
     13700000: Body
     13700002: Eyes
@@ -151,7 +151,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Mixamo_Tanbt
+      name: Mixamo_Taunt
       takeName: mixamo.com
       firstFrame: 0
       lastFrame: 116

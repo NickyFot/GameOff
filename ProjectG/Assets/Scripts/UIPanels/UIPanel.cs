@@ -15,12 +15,12 @@ public abstract class UIPanel
 
     public virtual void ShowPanel()
     {
-        UIManager.Instance.FadeInUI(PanelObj);
+        UIManager.Instance.FadeInUI(PanelObj, 0.6f, true);
     }
 
     public virtual void HidePanel()
     {
-        UIManager.Instance.FadeOutUI(PanelObj, 0.8f);
+        UIManager.Instance.FadeOutUI(PanelObj, 0.8f, true);
     }
 
     //-----------------------------------------------------------------
