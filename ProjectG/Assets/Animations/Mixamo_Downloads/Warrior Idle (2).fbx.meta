@@ -1,127 +1,94 @@
 fileFormatVersion: 2
-guid: 8aa0db37d9c8d6f449f15f92707ebf49
+guid: a251e332b327842408deeb349d311f88
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Body
-    100002: Eyes
-    100004: Hat
-    100006: Laces
-    100008: mixamorig:Head
-    100010: mixamorig:HeadTop_End
-    100012: mixamorig:Hips
-    100014: mixamorig:LeftArm
-    100016: mixamorig:LeftFoot
-    100018: mixamorig:LeftForeArm
-    100020: mixamorig:LeftHand
-    100022: mixamorig:LeftHandIndex1
-    100024: mixamorig:LeftHandIndex2
-    100026: mixamorig:LeftHandIndex3
-    100028: mixamorig:LeftHandIndex4
-    100030: mixamorig:LeftHandThumb1
-    100032: mixamorig:LeftHandThumb2
-    100034: mixamorig:LeftHandThumb3
-    100036: mixamorig:LeftHandThumb4
-    100038: mixamorig:LeftLeg
-    100040: mixamorig:LeftShoulder
-    100042: mixamorig:LeftToe_End
-    100044: mixamorig:LeftToeBase
-    100046: mixamorig:LeftUpLeg
-    100048: mixamorig:Neck
-    100050: mixamorig:RightArm
-    100052: mixamorig:RightFoot
-    100054: mixamorig:RightForeArm
-    100056: mixamorig:RightHand
-    100058: mixamorig:RightHandIndex1
-    100060: mixamorig:RightHandIndex2
-    100062: mixamorig:RightHandIndex3
-    100064: mixamorig:RightHandIndex4
-    100066: mixamorig:RightHandThumb1
-    100068: mixamorig:RightHandThumb2
-    100070: mixamorig:RightHandThumb3
-    100072: mixamorig:RightHandThumb4
-    100074: mixamorig:RightLeg
-    100076: mixamorig:RightShoulder
-    100078: mixamorig:RightToe_End
-    100080: mixamorig:RightToeBase
-    100082: mixamorig:RightUpLeg
-    100084: mixamorig:Spine
-    100086: mixamorig:Spine1
-    100088: mixamorig:Spine2
-    100090: Pipe
-    100092: Shoes
-    100094: //RootNode
-    100096: Teeth
-    100098: Tie
-    400000: Body
-    400002: Eyes
-    400004: Hat
-    400006: Laces
-    400008: mixamorig:Head
-    400010: mixamorig:HeadTop_End
-    400012: mixamorig:Hips
-    400014: mixamorig:LeftArm
-    400016: mixamorig:LeftFoot
-    400018: mixamorig:LeftForeArm
-    400020: mixamorig:LeftHand
-    400022: mixamorig:LeftHandIndex1
-    400024: mixamorig:LeftHandIndex2
-    400026: mixamorig:LeftHandIndex3
-    400028: mixamorig:LeftHandIndex4
-    400030: mixamorig:LeftHandThumb1
-    400032: mixamorig:LeftHandThumb2
-    400034: mixamorig:LeftHandThumb3
-    400036: mixamorig:LeftHandThumb4
-    400038: mixamorig:LeftLeg
-    400040: mixamorig:LeftShoulder
-    400042: mixamorig:LeftToe_End
-    400044: mixamorig:LeftToeBase
-    400046: mixamorig:LeftUpLeg
-    400048: mixamorig:Neck
-    400050: mixamorig:RightArm
-    400052: mixamorig:RightFoot
-    400054: mixamorig:RightForeArm
-    400056: mixamorig:RightHand
-    400058: mixamorig:RightHandIndex1
-    400060: mixamorig:RightHandIndex2
-    400062: mixamorig:RightHandIndex3
-    400064: mixamorig:RightHandIndex4
-    400066: mixamorig:RightHandThumb1
-    400068: mixamorig:RightHandThumb2
-    400070: mixamorig:RightHandThumb3
-    400072: mixamorig:RightHandThumb4
-    400074: mixamorig:RightLeg
-    400076: mixamorig:RightShoulder
-    400078: mixamorig:RightToe_End
-    400080: mixamorig:RightToeBase
-    400082: mixamorig:RightUpLeg
-    400084: mixamorig:Spine
-    400086: mixamorig:Spine1
-    400088: mixamorig:Spine2
-    400090: Pipe
-    400092: Shoes
-    400094: //RootNode
-    400096: Teeth
-    400098: Tie
-    2100000: No Name
-    4300000: Body
-    4300002: Hat
-    4300004: Teeth
-    4300006: Pipe
-    4300008: Tie
-    4300010: Eyes
-    4300012: Shoes
-    4300014: Laces
-    7400000: Mixamo_Tanbt
+    100000: mixamorig:Head
+    100002: mixamorig:HeadTop_End
+    100004: mixamorig:Hips
+    100006: mixamorig:LeftArm
+    100008: mixamorig:LeftFoot
+    100010: mixamorig:LeftForeArm
+    100012: mixamorig:LeftHand
+    100014: mixamorig:LeftHandIndex1
+    100016: mixamorig:LeftHandIndex2
+    100018: mixamorig:LeftHandIndex3
+    100020: mixamorig:LeftHandIndex4
+    100022: mixamorig:LeftHandThumb1
+    100024: mixamorig:LeftHandThumb2
+    100026: mixamorig:LeftHandThumb3
+    100028: mixamorig:LeftHandThumb4
+    100030: mixamorig:LeftLeg
+    100032: mixamorig:LeftShoulder
+    100034: mixamorig:LeftToe_End
+    100036: mixamorig:LeftToeBase
+    100038: mixamorig:LeftUpLeg
+    100040: mixamorig:Neck
+    100042: mixamorig:RightArm
+    100044: mixamorig:RightFoot
+    100046: mixamorig:RightForeArm
+    100048: mixamorig:RightHand
+    100050: mixamorig:RightHandIndex1
+    100052: mixamorig:RightHandIndex2
+    100054: mixamorig:RightHandIndex3
+    100056: mixamorig:RightHandIndex4
+    100058: mixamorig:RightHandThumb1
+    100060: mixamorig:RightHandThumb2
+    100062: mixamorig:RightHandThumb3
+    100064: mixamorig:RightHandThumb4
+    100066: mixamorig:RightLeg
+    100068: mixamorig:RightShoulder
+    100070: mixamorig:RightToe_End
+    100072: mixamorig:RightToeBase
+    100074: mixamorig:RightUpLeg
+    100076: mixamorig:Spine
+    100078: mixamorig:Spine1
+    100080: mixamorig:Spine2
+    100082: //RootNode
+    400000: mixamorig:Head
+    400002: mixamorig:HeadTop_End
+    400004: mixamorig:Hips
+    400006: mixamorig:LeftArm
+    400008: mixamorig:LeftFoot
+    400010: mixamorig:LeftForeArm
+    400012: mixamorig:LeftHand
+    400014: mixamorig:LeftHandIndex1
+    400016: mixamorig:LeftHandIndex2
+    400018: mixamorig:LeftHandIndex3
+    400020: mixamorig:LeftHandIndex4
+    400022: mixamorig:LeftHandThumb1
+    400024: mixamorig:LeftHandThumb2
+    400026: mixamorig:LeftHandThumb3
+    400028: mixamorig:LeftHandThumb4
+    400030: mixamorig:LeftLeg
+    400032: mixamorig:LeftShoulder
+    400034: mixamorig:LeftToe_End
+    400036: mixamorig:LeftToeBase
+    400038: mixamorig:LeftUpLeg
+    400040: mixamorig:Neck
+    400042: mixamorig:RightArm
+    400044: mixamorig:RightFoot
+    400046: mixamorig:RightForeArm
+    400048: mixamorig:RightHand
+    400050: mixamorig:RightHandIndex1
+    400052: mixamorig:RightHandIndex2
+    400054: mixamorig:RightHandIndex3
+    400056: mixamorig:RightHandIndex4
+    400058: mixamorig:RightHandThumb1
+    400060: mixamorig:RightHandThumb2
+    400062: mixamorig:RightHandThumb3
+    400064: mixamorig:RightHandThumb4
+    400066: mixamorig:RightLeg
+    400068: mixamorig:RightShoulder
+    400070: mixamorig:RightToe_End
+    400072: mixamorig:RightToeBase
+    400074: mixamorig:RightUpLeg
+    400076: mixamorig:Spine
+    400078: mixamorig:Spine1
+    400080: mixamorig:Spine2
+    400082: //RootNode
+    7400000: Idle
     9500000: //RootNode
-    13700000: Body
-    13700002: Eyes
-    13700004: Hat
-    13700006: Laces
-    13700008: Pipe
-    13700010: Shoes
-    13700012: Teeth
-    13700014: Tie
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -151,10 +118,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Mixamo_Tanbt
+      name: Idle
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 116
+      lastFrame: 344
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -209,7 +176,7 @@ ModelImporter:
     tangentImportMode: 3
     normalCalculationMode: 4
   importAnimation: 1
-  copyAvatar: 0
+  copyAvatar: 1
   humanDescription:
     serializedVersion: 2
     human:
@@ -747,7 +714,8 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 8aa0db37d9c8d6f449f15f92707ebf49,
+    type: 3}
   animationType: 3
   humanoidOversampling: 1
   additionalBone: 0
