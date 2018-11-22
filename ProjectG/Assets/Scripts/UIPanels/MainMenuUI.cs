@@ -6,9 +6,9 @@ public class MainMenuUI : UIPanel
 {
     //-----------------------------------------------------------------
 
-    private Button PlayBtn;
-    private Button CreditsBtn;
-    private Button ExitBtn;
+    private Button m_PlayBtn;
+    private Button m_CreditsBtn;
+    private Button m_ExitBtn;
 
     //-----------------------------------------------------------------
 
@@ -23,22 +23,23 @@ public class MainMenuUI : UIPanel
     {
         PanelObj = UIManager.MainCanvas.transform.Find("MainMenu").gameObject;
 
-        PlayBtn = PanelObj.transform.Find("PlayButton").GetComponent<Button>();
-        SetButtonMethod(PlayBtn, PlayAction);
+        m_PlayBtn = PanelObj.transform.Find("PlayButton").GetComponent<Button>();
+        SetButtonMethod(m_PlayBtn, PlayAction);
 
-        CreditsBtn = PanelObj.transform.Find("CreditsButton").GetComponent<Button>();
-        SetButtonMethod(CreditsBtn, CreditsAction);
+        m_CreditsBtn = PanelObj.transform.Find("CreditsButton").GetComponent<Button>();
+        SetButtonMethod(m_CreditsBtn, CreditsAction);
 
-        ExitBtn = PanelObj.transform.Find("ExitButton").GetComponent<Button>();
-        SetButtonMethod(ExitBtn, ExitAction);
+        m_ExitBtn = PanelObj.transform.Find("ExitButton").GetComponent<Button>();
+        SetButtonMethod(m_ExitBtn, ExitAction);
+
     }
 
     //-----------------------------------------------------------------
 
     private void PlayAction()
     {
-        Debug.Log("Pressed Options");
-
+        //Debug.Log("Pressed Options");
+        AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.MainMenu.HidePanel();
         UIManager.Instance.PlaySettings.ShowPanel();
         //UIManager.Instance.WaitForTransitionToEnd(TransitionIntoGame);
@@ -51,13 +52,15 @@ public class MainMenuUI : UIPanel
 
     private void CreditsAction()
     {
-        Debug.Log("Pressed Options");
+        //Debug.Log("Pressed Options");
+        AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.MainMenu.HidePanel();
         UIManager.Instance.Credits.ShowPanel();
     }
 
     private void ExitAction()
     {
+        AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         Application.Quit();
     }
 
