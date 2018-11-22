@@ -133,3 +133,4 @@ ProjectG/Library/
 sh.exe.stackdump
 *.csproj
 ProjectG/obj/Debug/build.force
+ProjectG/obj/
