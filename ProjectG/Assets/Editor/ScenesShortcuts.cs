@@ -28,4 +28,10 @@ public class ScenesShortcuts
     {
         OpenScene("Assets/Scenes/Dev/BrawlDemo.unity");
     }
+
+    [MenuItem("Scenes/Dev/GDsTestBed", priority = 53)]
+    private static void Gd_Demo()
+    {
+        OpenScene("Assets/Scenes/Dev/GDsTestBed.unity");
+    }
 }
