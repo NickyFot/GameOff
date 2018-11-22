@@ -29,6 +29,7 @@ public class PlaySettingsUI : UIPanel
     //-----------------------------------------------------------------
     private void PlayAction()
     {
+        AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.PlaySettings.HidePanel();
         UIManager.Instance.WaitForTransitionToEnd(TransitionIntoGame);
     }
@@ -40,6 +41,7 @@ public class PlaySettingsUI : UIPanel
 
     private void BackAction()
     {
+        AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.PlaySettings.HidePanel();
         UIManager.Instance.MainMenu.ShowPanel();
     }

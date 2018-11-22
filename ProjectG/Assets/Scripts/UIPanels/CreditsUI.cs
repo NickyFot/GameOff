@@ -27,6 +27,7 @@ public class CreditsUI : UIPanel
 
     private void BackAction()
     {
+        AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.Credits.HidePanel();
         UIManager.Instance.MainMenu.ShowPanel();
     }

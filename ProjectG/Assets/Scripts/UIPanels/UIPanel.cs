@@ -9,6 +9,20 @@ public abstract class UIPanel
 
     public GameObject PanelObj;
 
+    private static AudioClip m_ButtonClick;
+    protected static AudioClip p_ButtonClick
+    {
+        get
+        {
+            if(m_ButtonClick == null)
+            {
+                m_ButtonClick = Resources.Load<AudioClip>("Audio/Other/ButtonClick");
+            }
+            return m_ButtonClick;
+        }
+    }
+
+
     //-----------------------------------------------------------------
 
     public abstract void SetupUI();
