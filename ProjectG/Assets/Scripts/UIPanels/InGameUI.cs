@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class InGameUI : UIPanel
 {
+    private CountdownUI m_CountDown;
     private GameObject m_HPPrefab;
     
     private int m_PlayerCount = 0;
@@ -18,6 +19,11 @@ public class InGameUI : UIPanel
     {
         PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
         m_HPPrefab = Resources.Load<GameObject>("PlayerHP");
+        if(m_CountDown == null)
+        {
+            GameObject temp = GameObject.Instantiate(Resources.Load<GameObject>("CountDownUI"), PanelObj.transform);
+            m_CountDown = temp.GetComponent<CountdownUI>();
+        }
     }
 
     public void CreatePanel(string playerName)
@@ -44,6 +50,12 @@ public class InGameUI : UIPanel
                 break;
         }
 
+    }
+
+    public void StartCountDown()
+    {
+        m_CountDown.Reset();
+        m_CountDown.Count = true;
     }
 
     private class PlayerPanel

@@ -64,6 +64,7 @@ public class FightManager : Singleton<FightManager>
         AliveFightersList.Add(fighter1);
         AliveFightersList.Add(fighter2);
 
+        StartFight();
         
 
         //Unit fighter3 = new NPCUnit("PlayerUnit", SpawnPointList[1]);
@@ -82,7 +83,7 @@ public class FightManager : Singleton<FightManager>
         switch(m_CurrentState)
         {
             case TurnState.INTRO_STATE:
-                if(Input.GetKey(KeyCode.Space))
+                if (Input.GetKey(KeyCode.Space))
                 {
                     GoToTimeStoppedState();
                 }
@@ -119,6 +120,12 @@ public class FightManager : Singleton<FightManager>
     }
 
     //-----------------------------------------------------------------
+
+    private void StartFight()
+    {
+        UIManager.Instance.GameUI.ShowPanel();
+        UIManager.Instance.StartCountDown();
+    }
 
     private void GoToTimeStoppedState()
     {
