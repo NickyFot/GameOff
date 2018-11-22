@@ -87,7 +87,7 @@ ModelImporter:
     400078: mixamorig:Spine1
     400080: mixamorig:Spine2
     400082: //RootNode
-    7400000: Surprise Uppercut
+    7400000: Uppercut_Quick
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -118,10 +118,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Surprise Uppercut
+      name: Uppercut_Quick
       takeName: mixamo.com
-      firstFrame: 0
-      lastFrame: 105
+      firstFrame: 18
+      lastFrame: 63
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -130,8 +130,8 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1

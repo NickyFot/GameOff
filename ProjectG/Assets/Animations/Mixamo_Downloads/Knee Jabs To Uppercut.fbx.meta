@@ -87,7 +87,7 @@ ModelImporter:
     400078: mixamorig:Spine
     400080: mixamorig:Spine1
     400082: mixamorig:Spine2
-    7400000: Knee Jabs To Uppercut
+    7400000: Uppercut_Heavy
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -118,10 +118,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Knee Jabs To Uppercut
+      name: Uppercut_Heavy
       takeName: mixamo.com
-      firstFrame: 0
-      lastFrame: 170
+      firstFrame: 93
+      lastFrame: 155
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -130,8 +130,8 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
