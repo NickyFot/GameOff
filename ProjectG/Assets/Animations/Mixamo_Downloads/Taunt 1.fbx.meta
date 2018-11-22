@@ -120,8 +120,8 @@ ModelImporter:
     - serializedVersion: 16
       name: TauntWatch
       takeName: mixamo.com
-      firstFrame: 0
-      lastFrame: 85
+      firstFrame: 13
+      lastFrame: 69
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

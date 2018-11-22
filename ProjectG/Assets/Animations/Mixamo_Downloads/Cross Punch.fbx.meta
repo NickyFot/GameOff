@@ -87,7 +87,7 @@ ModelImporter:
     400078: mixamorig:Spine
     400080: mixamorig:Spine1
     400082: mixamorig:Spine2
-    7400000: CrossPunch
+    7400000: CrossPunch_Heavy
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -118,7 +118,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: CrossPunch
+      name: CrossPunch_Heavy
       takeName: mixamo.com
       firstFrame: 0
       lastFrame: 60
