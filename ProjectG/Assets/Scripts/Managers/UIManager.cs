@@ -75,6 +75,8 @@ public class UIManager : Singleton<UIManager>
         PlaySettings = new PlaySettingsUI();
         Credits = new CreditsUI();
         GameUI = new InGameUI();
+
+        //debug
         CreatePlayerUIPanel("mitsos");
         CreatePlayerUIPanel("Mpampis");
         CreatePlayerUIPanel("NANA");
@@ -89,6 +91,10 @@ public class UIManager : Singleton<UIManager>
         GameUI.CreatePanel(playerName);
     }
 
+    public void StartCountDown()
+    {
+        GameUI.StartCountDown();
+    }
     //-----------------------------------------------------------------
 
     public void WaitForTransitionToEnd(Action callback)
