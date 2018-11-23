@@ -16,6 +16,11 @@ public class MainMenuState : GameState
         AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Blow_The_Man_Down"), AudioManager.ChannelType.MUSIC, true);
         AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.MUSIC, 0);
         AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 1, 2);
+
+        //debug
+        AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Ambience/flock-of-seagulls"), AudioManager.ChannelType.AMBIENTTWO, true);
+        AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.AMBIENTTWO, 0);
+        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.AMBIENTTWO, 0.3f, 1);
     }
 
     protected override void OnEnd()

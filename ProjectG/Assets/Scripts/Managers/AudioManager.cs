@@ -11,6 +11,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         MUSIC,
         AMBIENCE,
+        AMBIENTTWO,
         FX,
         VO
     }
@@ -22,6 +23,7 @@ public class AudioManager : Singleton<AudioManager>
     // 2D Audio sources
     private List<AudioSource> m_MusicTracks = new List<AudioSource>();
     private List<AudioSource> m_AmbienceTracks = new List<AudioSource>();
+    private List<AudioSource> m_AmbientTwo = new List<AudioSource>();
     private List<AudioSource> m_FXTracks = new List<AudioSource>();
     private List<AudioSource> m_VOTracks = new List<AudioSource>();
 
@@ -140,6 +142,9 @@ public class AudioManager : Singleton<AudioManager>
         trackToPlay.loop = loop;
         trackToPlay.Play();
     }
+
+    public void Play2DAudioGroup(ChannelType type, bool loop, params AudioClip[] clips)
+    { }
 
     // - 3D Audio Generic Play
     /// <summary>
@@ -562,6 +567,9 @@ public class AudioManager : Singleton<AudioManager>
                 break;
             case ChannelType.AMBIENCE:
                 trackList = m_AmbienceTracks;
+                break;
+            case ChannelType.AMBIENTTWO:
+                trackList = m_AmbientTwo;
                 break;
             case ChannelType.FX:
                 trackList = m_FXTracks;
