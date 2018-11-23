@@ -8,6 +8,11 @@ public class MainMenuState : GameState
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.activeSceneChanged += OnSceneChanged;
         SceneManager.LoadScene("MainMenu");
+
+        AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Ambience/Sea Waves"), AudioManager.ChannelType.AMBIENCE, true);
+        AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.AMBIENCE, 0);
+        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.AMBIENCE, 0.3f, 1);
+
         AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Blow_The_Man_Down"), AudioManager.ChannelType.MUSIC, true);
         AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.MUSIC, 0);
         AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 1, 2);
