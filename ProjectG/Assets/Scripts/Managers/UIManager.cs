@@ -77,10 +77,10 @@ public class UIManager : Singleton<UIManager>
         GameUI = new InGameUI();
 
         //debug
-        CreatePlayerUIPanel("mitsos");
-        CreatePlayerUIPanel("Mpampis");
-        CreatePlayerUIPanel("NANA");
-        CreatePlayerUIPanel("INOVI");
+        CreatePlayerUIPanel("Sharkhead Strongpunch");
+        CreatePlayerUIPanel("Guyshark Finwood");
+        CreatePlayerUIPanel("Captain Sharkbeard");
+        CreatePlayerUIPanel("Fin the Sharkman");
 
     }
 
