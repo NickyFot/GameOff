@@ -17,7 +17,7 @@ public class UIManager : Singleton<UIManager>
 
     #region Function Vars
 
-    // Fade 
+    // Fade
     private const float FADE_SPEED = 0.6f;
 
     private float m_FadeTimer;
@@ -78,7 +78,7 @@ public class UIManager : Singleton<UIManager>
     }
 
     //-----------------------------------------------------------------
-    
+
     public void CreatePlayerUIPanel(string playerName)
     {
         GameUI.CreatePanel(playerName);
@@ -199,7 +199,7 @@ public class UIManager : Singleton<UIManager>
                             Color col = m_FadeDetailsList[i].go.GetComponent<SpriteRenderer>().color;
                             m_FadeDetailsList[i].go.GetComponent<SpriteRenderer>().color = new Color(col.r, col.g, col.b, Mathf.SmoothStep(m_FadeDetailsList[i].InitAlpha, 1, m_FadeDetailsList[i].FadeTimer));
                         }
-                    }                   
+                    }
                 }
                 else
                 {

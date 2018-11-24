@@ -67,8 +67,31 @@ public class FightManager : Singleton<FightManager>
             CameraManager.Instance.AddTarget(fighter.UnitObj);
             UIManager.Instance.GameUI.CreatePanel(DataManager.Data.CharacterNames[i]);
         }
+        //Unit fighter1 = new PlayerUnit("PlayerUnit", SpawnPointList[0]);
+        //InputManager.Instance.AssignUnitToNextController(fighter1);
+        //Unit fighter2 = new NPCUnit("PlayerUnit", SpawnPointList[1]);
+        //fighter2.UnitParentObj.name = "NPC";
+        //CameraManager.Instance.AddTarget(fighter2.UnitObj);
+
+        
+        //CameraManager.Instance.AddTarget(fighter1.UnitObj);
+
+        //AliveFightersList.Add(fighter1);
+        //AliveFightersList.Add(fighter2);
+
+        AliveFightersList.ForEach(fighter => {
+            fighter.OnTakeDamage = () => { UIManager.Instance.GameUI.UpdateHpFor(fighter.Name, fighter.HealthPercentage()); };
+        });
 
         StartFight();
+
+        //Unit fighter3 = new NPCUnit("PlayerUnit", SpawnPointList[1]);
+        //fighter3.UnitObj.name = "NPC";
+
+        //Debug.Log(fighter2.Equals(fighter3));
+
+        //CameraManager.Instance.AddTarget(fighter2.UnitObj);
+        //CameraManager.Instance.AddTarget(fighter3.UnitObj);
     }
 
     //-----------------------------------------------------------------
@@ -90,7 +113,7 @@ public class FightManager : Singleton<FightManager>
                 break;
             case TurnState.FIGHTING_TIME_STOPPED:
             {
-              
+
                 m_WaitForInputTimer += Time.deltaTime;
                 if(m_WaitForInputTimer > m_WaitForInputTrigger)
                 {

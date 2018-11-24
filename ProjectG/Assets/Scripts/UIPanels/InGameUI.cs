@@ -7,7 +7,6 @@ using TMPro;
 public class InGameUI : UIPanel
 {
     private CountdownUI m_CountDown;
-    private GameObject m_HPPrefab;
 
     private GameObject m_TimerPanel;
     private TextMeshProUGUI m_TurnTimerText;
@@ -22,6 +21,7 @@ public class InGameUI : UIPanel
     }
 
     private int m_PlayerCount = 0;
+    private Dictionary<string, PlayerPanel> playerPanels = new Dictionary<string, PlayerPanel>(4);
 
     public InGameUI()
     {
@@ -31,7 +31,6 @@ public class InGameUI : UIPanel
     public override void SetupUI()
     {
         PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
-        m_HPPrefab = Resources.Load<GameObject>("PlayerHP");
         if(m_CountDown == null)
         {
             GameObject temp = GameObject.Instantiate(Resources.Load<GameObject>("CountDownUI"), PanelObj.transform);
@@ -43,28 +42,29 @@ public class InGameUI : UIPanel
 
     public void CreatePanel(string playerName)
     {
-        PlayerPanel Panel = new PlayerPanel(m_HPPrefab, this.PanelObj.transform);
+        GameObject hpPrefab = Resources.Load<GameObject>("PlayerHP");
+        PlayerPanel panel = new PlayerPanel(hpPrefab, this.PanelObj.transform);
+        panel.SetPlayerName(playerName);
 
-        Panel.SetPlayerName(playerName);
+        playerPanels.Add(playerName, panel);
 
         m_PlayerCount++;
 
         switch (m_PlayerCount)
         {
             case 1:
-                Panel.SetPosition(PanelPositions.Player1Center);
+                panel.SetPosition(PanelPositions.Player1Center);
                 break;
             case 2:
-                Panel.SetPosition(PanelPositions.Player2Center);
+                panel.SetPosition(PanelPositions.Player2Center);
                 break;
             case 3:
-                Panel.SetPosition(PanelPositions.Player3Center);
+                panel.SetPosition(PanelPositions.Player3Center);
                 break;
             case 4:
-                Panel.SetPosition(PanelPositions.Player4Center);
+                panel.SetPosition(PanelPositions.Player4Center);
                 break;
         }
-
     }
 
     public void StartCountDown()
@@ -76,6 +76,11 @@ public class InGameUI : UIPanel
     public void ShowTurnTimer(bool enable)
     {
         m_TimerPanel.SetActive(enable);
+    }
+
+    public void UpdateHpFor(string playerName, float hpPercentage)
+    {
+        playerPanels[playerName].UpdateHPBar(hpPercentage);
     }
 
     private class PlayerPanel
@@ -105,11 +110,11 @@ public class InGameUI : UIPanel
             PlayerName.text = Player_ID;
         }
 
-        private void UpdateHPBar(float hpPercentage)
-        { 
+        public void UpdateHPBar(float hpPercentage)
+        {
             HPbar.fillAmount = hpPercentage;
         }
-        
+
     }
 
     private struct PanelPositions
