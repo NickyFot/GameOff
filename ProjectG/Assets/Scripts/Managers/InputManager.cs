@@ -155,6 +155,11 @@ public class InputManager : Singleton<InputManager>
         }
         MoveCommand(u, x, y);
 
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            TauntCommand(u);
+        }
+
         //if(Input.GetMouseButtonDown(0))
         //{
         //    AttackLeftArmCommand(u);

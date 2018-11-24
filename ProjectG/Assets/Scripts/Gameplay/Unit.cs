@@ -63,13 +63,14 @@ public abstract class Unit
         UnitAnimator = UnitParentObj.GetComponentInChildren<Animator>();
         UnitObj = UnitAnimator.gameObject;
         BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
+        Data = new UnitData();
     }
 
     //-- UPDATE ----------------------------------------------------------------
 
     public void Update()
     {
-
+        UpdateQueue();
     }
 
     public void DecreaseHealthBy(int value)
@@ -108,13 +109,14 @@ public abstract class Unit
 
     protected virtual void QueueLogic()
     {
+        if(p_CommandQueue.Count <= 0) return;
         m_QueueTimer += Time.deltaTime;
         if(m_QueueTimer > m_QueueTrigger)
         {
             QueuedCommand command = p_CommandQueue.Dequeue();
             command.Execute();
             command = null;
-            m_QueueTrigger = p_CommandQueue.Peek().ExecutionTime;
+            m_QueueTrigger = 1;// p_CommandQueue.Peek().ExecutionTime;
             m_QueueTimer = 0;
         }
     }
