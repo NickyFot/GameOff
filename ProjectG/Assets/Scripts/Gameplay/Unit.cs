@@ -159,6 +159,54 @@ public abstract class Unit
         UnitAnimator.SetTrigger(animID);
     }
 
+
+    public void QueueBlockCommand()
+    {
+        if(HasFinishedTurn) return;
+        QueuedCommand com = new QueuedCommand(() => BlockCommand(), 1);
+        p_CommandQueue.Enqueue(com);
+    }
+
+    public void BlockCommand()
+    {
+        string animID = AnimationID.GetBlock();
+        if(animID == null) return;
+
+        UnitAnimator.SetTrigger(animID);
+    }
+
+
+    public void QueueIdleCommand()
+    {
+        if(HasFinishedTurn) return;
+        QueuedCommand com = new QueuedCommand(() => IdleCommand(), 1);
+        p_CommandQueue.Enqueue(com);
+    }
+
+    public void IdleCommand()
+    {
+        string animID = AnimationID.GetIdle();
+        if(animID == null) return;
+
+        UnitAnimator.SetTrigger(animID);
+    }
+
+
+    public void QueueTauntCommand()
+    {
+        if(HasFinishedTurn) return;
+        QueuedCommand com = new QueuedCommand(() => TauntCommand(), 1);
+        p_CommandQueue.Enqueue(com);
+    }
+
+    public void TauntCommand()
+    {
+        string animID = AnimationID.GetTaunt();
+        if(animID == null) return;
+
+        UnitAnimator.SetTrigger(animID);
+    }
+
     #endregion
 
     //-- IK FUNCTIONS ------------------------------------------------------------
