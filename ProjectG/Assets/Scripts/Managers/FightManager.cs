@@ -44,6 +44,8 @@ public class FightManager : Singleton<FightManager>
     // TO - DO: ADD LEVEL PARAM
     public void SetupNewRound()
     {
+        InputManager.Instance.InputEnabled = true;
+
         m_CurrentState = TurnState.INTRO_STATE;
         m_TurnTrigger = DataManager.Data.TurnTime;
         m_WaitForInputTrigger = DataManager.Data.WaitForInputTime / (1 / DataManager.Data.SlowDownScale);
@@ -52,14 +54,14 @@ public class FightManager : Singleton<FightManager>
 
         SpawnPointList = new List<Vector3>(GetSpawnPoints(ArenaObject));
 
-        Unit fighter1 = new PlayerUnit("PlayerUnit", "Guyshark Finwood", SpawnPointList[0]);
+        Unit fighter1 = new PlayerUnit("SharkDude", "Guyshark Finwood", SpawnPointList[0]);
         InputManager.Instance.AssignUnitToNextController(fighter1);
 
         CameraManager.Instance.InitCamera(Vector3.zero);
         CameraManager.Instance.SetCameraPositionBoundaries(14, -14f, 15f, -15f);
         CameraManager.Instance.AddTarget(fighter1.UnitObj);
 
-        Unit fighter2 = new NPCUnit("PlayerUnit", "Sharkhead Strongpunch", SpawnPointList[1]);
+        Unit fighter2 = new NPCUnit("SharkDude", "Sharkhead Strongpunch", SpawnPointList[1]);
         fighter2.UnitParentObj.name = "NPC";
         CameraManager.Instance.AddTarget(fighter2.UnitObj);
 
@@ -85,6 +87,11 @@ public class FightManager : Singleton<FightManager>
 
     public void UpdateFight()
     {
+        for(int i = 0; i < AliveFightersList.Count; i++)
+        {
+            AliveFightersList[i].Update();
+        }
+
         switch(m_CurrentState)
         {
             case TurnState.INTRO_STATE:
