@@ -24,7 +24,7 @@ public class MainMenuState : GameState
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.activeSceneChanged -= OnSceneChanged;
-        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 0, 1.5f, delegate { AudioManager.Instance.StopChannel(AudioManager.ChannelType.MUSIC); });
+        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 0, 1.5f);
 
     }
 
