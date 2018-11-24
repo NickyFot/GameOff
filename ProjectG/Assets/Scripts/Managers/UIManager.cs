@@ -113,8 +113,6 @@ public class UIManager : Singleton<UIManager>
             ClearFadeLists();
             OnTransitionsEnd();
         }
-
-        //GameUI.
     }
 
     //-----------------------------------------------------------------
