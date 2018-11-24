@@ -76,11 +76,11 @@ public class UIManager : Singleton<UIManager>
         Credits = new CreditsUI();
         GameUI = new InGameUI();
 
-        //debug
-        CreatePlayerUIPanel("Sharkhead Strongpunch");
-        CreatePlayerUIPanel("Guyshark Finwood");
-        CreatePlayerUIPanel("Captain Sharkbeard");
-        CreatePlayerUIPanel("Fin the Sharkman");
+        ////debug
+        //CreatePlayerUIPanel("");
+        //CreatePlayerUIPanel("");
+        //CreatePlayerUIPanel("");
+        //CreatePlayerUIPanel("");
 
     }
 
