@@ -18,9 +18,9 @@ public class MainMenuState : GameState
         AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 1, 2);
 
         //debug
-        AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Ambience/flock-of-seagulls"), AudioManager.ChannelType.AMBIENTTWO, true);
-        AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.AMBIENTTWO, 0);
-        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.AMBIENTTWO, 0.3f, 1);
+        AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Ambience/flock-of-seagulls"), AudioManager.ChannelType.FOLLEY, true);
+        AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.FOLLEY, 0);
+        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.FOLLEY, 0.3f, 1);
     }
 
     protected override void OnEnd()
