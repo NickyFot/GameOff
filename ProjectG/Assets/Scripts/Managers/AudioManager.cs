@@ -72,7 +72,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         private float m_TimeBetweenClips;
         private float m_Timer;
-
+        
         public AutomaticAudioGroup(float timeBetweenClips, params AudioClip[] clips) : base(clips)
         {
             m_TimeBetweenClips = timeBetweenClips;
@@ -187,8 +187,6 @@ public class AudioManager : Singleton<AudioManager>
         trackToPlay.Play();
     }
 
-    public void Play2DAudioGroup(ChannelType type, bool loop, params AudioClip[] clips)
-    { }
 
     // - 3D Audio Generic Play
     /// <summary>
