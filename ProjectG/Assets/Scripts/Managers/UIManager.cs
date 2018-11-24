@@ -75,13 +75,6 @@ public class UIManager : Singleton<UIManager>
         PlaySettings = new PlaySettingsUI();
         Credits = new CreditsUI();
         GameUI = new InGameUI();
-
-        ////debug
-        //CreatePlayerUIPanel("");
-        //CreatePlayerUIPanel("");
-        //CreatePlayerUIPanel("");
-        //CreatePlayerUIPanel("");
-
     }
 
     //-----------------------------------------------------------------
