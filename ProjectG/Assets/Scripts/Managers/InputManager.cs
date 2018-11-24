@@ -46,8 +46,12 @@ public class InputManager : Singleton<InputManager>
 
     public void SetDefaultKeybindings(Controller controller)
     {
-        controller.ButtonRB.Execute = AttackRightArmCommand;
-		controller.ButtonLB.Execute = AttackLeftArmCommand;
+        controller.ButtonB.Execute = AttackRightArmCommand;
+		controller.ButtonA.Execute = AttackLeftArmCommand;
+		controller.ButtonX.Execute = AttackRightLegCommand;
+		controller.ButtonY.Execute = AttackLeftLegCommand;
+        controller.ButtonRB.Execute = BlockCommand;
+        controller.ButtonBack.Execute = TauntCommand;
     }
 
     #endregion
@@ -71,9 +75,29 @@ public class InputManager : Singleton<InputManager>
         u.QueueAttackCommand(UnitLimb.LimbType.LEFT_ARM);
     }
 
+    private void AttackLeftLegCommand(Unit u)
+    {
+        u.QueueAttackCommand(UnitLimb.LimbType.LEFT_LEG);
+    }
+
+    private void AttackRightLegCommand(Unit u)
+    {
+        u.QueueAttackCommand(UnitLimb.LimbType.RIGHT_LEG);
+    }
+
+    private void AttackHeadCommand(Unit u)
+    {
+        u.QueueAttackCommand(UnitLimb.LimbType.HEAD);
+    }
+
+    private void TauntCommand(Unit u)
+    {
+        u.QueueTauntCommand();
+    }
+
     private void BlockCommand(Unit u)
     {
-        Debug.Log("I BLOCKZ");
+        u.QueueBlockCommand();
     }
 
     #endregion
@@ -130,6 +154,11 @@ public class InputManager : Singleton<InputManager>
             x = 1;
         }
         MoveCommand(u, x, y);
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            TauntCommand(u);
+        }
 
         //if(Input.GetMouseButtonDown(0))
         //{

@@ -44,6 +44,8 @@ public class FightManager : Singleton<FightManager>
     // TO - DO: ADD LEVEL PARAM
     public void SetupNewRound()
     {
+        InputManager.Instance.InputEnabled = true;
+
         m_CurrentState = TurnState.INTRO_STATE;
         m_TurnTrigger = DataManager.Data.TurnTime;
         m_WaitForInputTrigger = DataManager.Data.WaitForInputTime / (1 / DataManager.Data.SlowDownScale);
@@ -93,6 +95,11 @@ public class FightManager : Singleton<FightManager>
 
     public void UpdateFight()
     {
+        for(int i = 0; i < AliveFightersList.Count; i++)
+        {
+            AliveFightersList[i].Update();
+        }
+
         switch(m_CurrentState)
         {
             case TurnState.INTRO_STATE:
