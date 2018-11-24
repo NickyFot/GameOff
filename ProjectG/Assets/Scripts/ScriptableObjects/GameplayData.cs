@@ -13,4 +13,6 @@ public class GameplayData : ScriptableObject
 
     [Header("Audio")]
     public AudioClip MainMenuMusic;
+
+    public AudioClip[] AmbientGroup;
 }

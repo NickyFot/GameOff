@@ -2,12 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class InGameUI : UIPanel
 {
     private CountdownUI m_CountDown;
     private GameObject m_HPPrefab;
-    
+
+    private GameObject m_TimerPanel;
+    private TextMeshProUGUI m_TurnTimerText;
+    private float m_Timer;
+    public float timerText
+    {
+        set
+        {
+            m_Timer = value;
+            m_TurnTimerText.text = m_Timer.ToString();
+        }
+    }
+
     private int m_PlayerCount = 0;
 
     public InGameUI()
@@ -24,6 +37,8 @@ public class InGameUI : UIPanel
             GameObject temp = GameObject.Instantiate(Resources.Load<GameObject>("CountDownUI"), PanelObj.transform);
             m_CountDown = temp.GetComponent<CountdownUI>();
         }
+        m_TimerPanel = PanelObj.transform.Find("TurnTimer").gameObject;
+        m_TurnTimerText = m_TimerPanel.GetComponent<TextMeshProUGUI>();
     }
 
     public void CreatePanel(string playerName)
@@ -58,11 +73,16 @@ public class InGameUI : UIPanel
         m_CountDown.Count = true;
     }
 
+    public void ShowTurnTimer(bool enable)
+    {
+        m_TimerPanel.SetActive(enable);
+    }
+
     private class PlayerPanel
     {
         private GameObject m_ParentObj;
         private Image HPbar;
-        private TMPro.TextMeshProUGUI PlayerName;
+        private TextMeshProUGUI PlayerName;
         private RectTransform m_RectTransform ;
         public Vector2 PlayerPosition;
 
@@ -70,7 +90,7 @@ public class InGameUI : UIPanel
         {
             m_ParentObj = GameObject.Instantiate(prefab);
             m_ParentObj.transform.parent = parent;
-            PlayerName = m_ParentObj.transform.Find("Text").GetComponent<TMPro.TextMeshProUGUI>();
+            PlayerName = m_ParentObj.transform.Find("Text").GetComponent<TextMeshProUGUI>();
             HPbar = m_ParentObj.transform.Find("Bar level").GetComponent<Image>();
             m_RectTransform = m_ParentObj.transform.Find("").GetComponent<RectTransform>();
         }

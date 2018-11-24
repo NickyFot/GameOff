@@ -9,25 +9,22 @@ public class MainMenuState : GameState
         SceneManager.activeSceneChanged += OnSceneChanged;
         SceneManager.LoadScene("MainMenu");
 
-        AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Ambience/Sea Waves"), AudioManager.ChannelType.AMBIENCE, true);
-        AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.AMBIENCE, 0);
-        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.AMBIENCE, 0.3f, 1);
 
         AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Blow_The_Man_Down"), AudioManager.ChannelType.MUSIC, true);
         AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.MUSIC, 0);
         AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 1, 2);
 
         //debug
-        AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Ambience/flock-of-seagulls"), AudioManager.ChannelType.FOLLEY, true);
-        AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.FOLLEY, 0);
-        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.FOLLEY, 0.3f, 1);
+        //AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Ambience/flock-of-seagulls"), AudioManager.ChannelType.FOLLEY, true);
+        //AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.FOLLEY, 0);
+        //AudioManager.Instance.FadeChannel(AudioManager.ChannelType.FOLLEY, 0.3f, 1);
     }
 
     protected override void OnEnd()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.activeSceneChanged -= OnSceneChanged;
-        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 0, 1.5f, delegate { AudioManager.Instance.StopChannel(AudioManager.ChannelType.MUSIC); });
+        AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 0, 1.5f);
 
     }
 
