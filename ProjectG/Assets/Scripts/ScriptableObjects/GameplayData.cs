@@ -15,4 +15,7 @@ public class GameplayData : ScriptableObject
     public AudioClip MainMenuMusic;
 
     public AudioClip[] AmbientGroup;
+
+    [Header("Players")]
+    public string[] CharacterNames;
 }

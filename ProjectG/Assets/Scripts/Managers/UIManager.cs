@@ -75,13 +75,6 @@ public class UIManager : Singleton<UIManager>
         PlaySettings = new PlaySettingsUI();
         Credits = new CreditsUI();
         GameUI = new InGameUI();
-
-        // FIXME need a way to grab these names from the FightManager @RUI
-        //debug
-        CreatePlayerUIPanel("Sharkhead Strongpunch");
-        CreatePlayerUIPanel("Guyshark Finwood");
-        CreatePlayerUIPanel("Captain Sharkbeard");
-        CreatePlayerUIPanel("Fin the Sharkman");
     }
 
     //-----------------------------------------------------------------

@@ -191,6 +191,7 @@ public abstract class Unit
         if(animID == null) return;
 
         UnitAnimator.SetTrigger(animID);
+        AudioManager.Instance.Play3DAudio(Resources.Load<AudioClip>("Audio/Woosh"), UnitObj.transform.position, 30, 40);
     }
 
 

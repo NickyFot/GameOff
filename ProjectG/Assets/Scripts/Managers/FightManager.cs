@@ -61,12 +61,12 @@ public class FightManager : Singleton<FightManager>
 
         for (int i = 0; i < numberPlayers; i++)
         {
-            Unit fighter = new PlayerUnit("PlayerUnit", SpawnPointList[i]);
+            Unit fighter = new PlayerUnit("SharkDude", SpawnPointList[i % 2]);
             InputManager.Instance.AssignUnitToNextController(fighter);
             AliveFightersList.Add(fighter);
             CameraManager.Instance.AddTarget(fighter.UnitObj);
+            UIManager.Instance.GameUI.CreatePanel(DataManager.Data.CharacterNames[i]);
         }
-
         //Unit fighter1 = new PlayerUnit("PlayerUnit", SpawnPointList[0]);
         //InputManager.Instance.AssignUnitToNextController(fighter1);
         //Unit fighter2 = new NPCUnit("PlayerUnit", SpawnPointList[1]);
