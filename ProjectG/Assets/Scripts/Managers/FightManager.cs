@@ -157,8 +157,6 @@ public class FightManager : Singleton<FightManager>
 
     private void GoToTimeRunningState()
     {
-        FightManager.Instance.AliveFightersList.ForEach(fighter => { fighter.DecreaseHealthBy(10); });
-
         m_TurnTimer = 0;
         m_CurrentState = TurnState.FIGHTING_TIME_RUNNING;
         Time.timeScale = 1;
