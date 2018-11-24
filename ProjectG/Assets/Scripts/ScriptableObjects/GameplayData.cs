@@ -10,4 +10,7 @@ public class GameplayData : ScriptableObject
 
     public float WaitForInputTime;
     public float TurnTime;
+
+    [Header("Audio")]
+    public AudioClip MainMenuMusic;
 }
