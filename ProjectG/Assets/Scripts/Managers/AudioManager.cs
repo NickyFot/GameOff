@@ -11,7 +11,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         MUSIC,
         AMBIENCE,
-        AMBIENTTWO,
+        FOLLEY,
         FX,
         VO
     }
@@ -23,7 +23,7 @@ public class AudioManager : Singleton<AudioManager>
     // 2D Audio sources
     private List<AudioSource> m_MusicTracks = new List<AudioSource>();
     private List<AudioSource> m_AmbienceTracks = new List<AudioSource>();
-    private List<AudioSource> m_AmbientTwo = new List<AudioSource>();
+    private List<AudioSource> m_FolleyTracks = new List<AudioSource>();
     private List<AudioSource> m_FXTracks = new List<AudioSource>();
     private List<AudioSource> m_VOTracks = new List<AudioSource>();
 
@@ -52,6 +52,45 @@ public class AudioManager : Singleton<AudioManager>
         public float Progress;
         public Action OnFadeComplete;
     }
+
+    public class AudioGroup
+    {
+        protected AudioClip[] m_Clips;
+
+        public AudioGroup(params AudioClip[] clips)
+        {
+            m_Clips = clips;
+        }
+
+        public AudioClip GetRandomClip()
+        {
+            return m_Clips[UnityEngine.Random.Range(0, m_Clips.Length)];
+        }
+    }
+
+    private class AutomaticAudioGroup : AudioGroup
+    {
+        private float m_TimeBetweenClips;
+        private float m_Timer;
+
+        public AutomaticAudioGroup(float timeBetweenClips, params AudioClip[] clips) : base(clips)
+        {
+            m_TimeBetweenClips = timeBetweenClips;
+        }
+
+        public void Update()
+        {
+            if(m_Clips.Length == 0) return;
+            m_Timer += Time.deltaTime;
+            if(m_Timer > m_TimeBetweenClips)
+            {
+                m_Timer = 0;
+                AudioManager.Instance.PlaySFX(GetRandomClip());
+            }
+        }
+    }
+
+    private AutomaticAudioGroup m_CurrentAutomaticAudioGroup;
 
     private List<FadeInfo> m_FadeList = new List<FadeInfo>();
 
@@ -103,6 +142,11 @@ public class AudioManager : Singleton<AudioManager>
                 FadeInfo info = m_FadeList[i];
                 FadeTrack(ref info);
             }
+        }
+
+        if(m_CurrentAutomaticAudioGroup != null)
+        {
+            m_CurrentAutomaticAudioGroup.Update();
         }
     }
 
@@ -353,6 +397,16 @@ public class AudioManager : Singleton<AudioManager>
         m_IsPlayingNaratorVo = false;
     }
 
+    public void PlayAutomaticAudioGroup(float timeBetweenClips, params AudioClip[] clips)
+    {
+        m_CurrentAutomaticAudioGroup = new AutomaticAudioGroup(timeBetweenClips, clips);
+    }
+
+    public void StopAutomaticAudioGroup()
+    {
+        m_CurrentAutomaticAudioGroup = null;
+    }
+
     //- TRACK OPTIONS -----------------------------------------------------
 
     // - Sound Effects
@@ -568,8 +622,8 @@ public class AudioManager : Singleton<AudioManager>
             case ChannelType.AMBIENCE:
                 trackList = m_AmbienceTracks;
                 break;
-            case ChannelType.AMBIENTTWO:
-                trackList = m_AmbientTwo;
+            case ChannelType.FOLLEY:
+                trackList = m_FolleyTracks;
                 break;
             case ChannelType.FX:
                 trackList = m_FXTracks;
