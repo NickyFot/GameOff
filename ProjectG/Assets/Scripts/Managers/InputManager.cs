@@ -51,6 +51,7 @@ public class InputManager : Singleton<InputManager>
 		controller.ButtonX.Execute = AttackRightLegCommand;
 		controller.ButtonY.Execute = AttackLeftLegCommand;
         controller.ButtonRB.Execute = BlockCommand;
+        controller.ButtonLB.Execute = AttackHeadCommand;
         controller.ButtonBack.Execute = TauntCommand;
     }
 
@@ -160,13 +161,25 @@ public class InputManager : Singleton<InputManager>
             TauntCommand(u);
         }
 
-        //if(Input.GetMouseButtonDown(0))
-        //{
-        //    AttackLeftArmCommand(u);
-        //}
-        if(Input.GetMouseButtonDown(1))
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            AttackLeftArmCommand(u);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha2))
         {
             AttackRightArmCommand(u);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            AttackLeftLegCommand(u);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            AttackRightLegCommand(u);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            AttackHeadCommand(u);
         }
     }
 
