@@ -29,8 +29,6 @@ public class FightManager : Singleton<FightManager>
     private float m_TurnTrigger;
     private float m_TurnTimer;
 
-    private DowntimeCounter downtime;
-
     //-----------------------------------------------------------------
 
     public FightManager()
@@ -50,7 +48,7 @@ public class FightManager : Singleton<FightManager>
         m_TurnTrigger = m_Data.TurnTime;
         m_WaitForInputTrigger = m_Data.WaitForInputTime / (1 / m_Data.SlowDownScale);
 
-     
+        GameObject PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
 
         SpawnPointList = new List<Vector3>(GetSpawnPoints(ArenaObject));
 
@@ -98,13 +96,11 @@ public class FightManager : Singleton<FightManager>
                 m_WaitForInputTimer += Time.deltaTime;
                 if(m_WaitForInputTimer > m_WaitForInputTrigger)
                 {
-                    downtime.Count = false;
                     GoToTimeRunningState();
                 }
                 else
                 {
-                    downtime.Count = true;
-                    downtime.timerTrgger = m_WaitForInputTimer;
+                    UIManager.Instance.GameUI.timerText = Mathf.RoundToInt((m_WaitForInputTrigger - m_WaitForInputTimer) * (1 / m_Data.SlowDownScale));
                 }
 
                 for(int i = 0; i < AliveFightersList.Count; i++)
@@ -145,6 +141,7 @@ public class FightManager : Singleton<FightManager>
         Time.timeScale = m_Data.SlowDownScale;
         Time.fixedDeltaTime = 0.02F * Time.timeScale;
         InputManager.Instance.InputEnabled = true;
+        UIManager.Instance.GameUI.ShowTurnTimer(true);
         Debug.Log("MOVING TO FIGHT_STOP");
     }
 
@@ -155,6 +152,7 @@ public class FightManager : Singleton<FightManager>
         Time.timeScale = 1;
         Time.fixedDeltaTime = 0.02F;
         InputManager.Instance.InputEnabled = false;
+        UIManager.Instance.GameUI.ShowTurnTimer(false);
         Debug.Log("MOVING TO FIGHT_RUN");
     }
 
