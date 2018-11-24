@@ -50,23 +50,34 @@ public class FightManager : Singleton<FightManager>
         m_TurnTrigger = DataManager.Data.TurnTime;
         m_WaitForInputTrigger = DataManager.Data.WaitForInputTime / (1 / DataManager.Data.SlowDownScale);
 
+        int numberPlayers = UIManager.Instance.PlaySettings.Counter;
+
         GameObject PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
 
         SpawnPointList = new List<Vector3>(GetSpawnPoints(ArenaObject));
 
-        Unit fighter1 = new PlayerUnit("SharkDude", SpawnPointList[0]);
-        InputManager.Instance.AssignUnitToNextController(fighter1);
-
         CameraManager.Instance.InitCamera(Vector3.zero);
         CameraManager.Instance.SetCameraPositionBoundaries(14, -14f, 15f, -15f);
-        CameraManager.Instance.AddTarget(fighter1.UnitObj);
 
-        Unit fighter2 = new NPCUnit("SharkDude", SpawnPointList[1]);
-        fighter2.UnitParentObj.name = "NPC";
-        CameraManager.Instance.AddTarget(fighter2.UnitObj);
+        for (int i = 0; i < numberPlayers; i++)
+        {
+            Unit fighter = new PlayerUnit("PlayerUnit", SpawnPointList[i % 2]);
+            InputManager.Instance.AssignUnitToNextController(fighter);
+            AliveFightersList.Add(fighter);
+            CameraManager.Instance.AddTarget(fighter.UnitObj);
+        }
 
-        AliveFightersList.Add(fighter1);
-        AliveFightersList.Add(fighter2);
+        //Unit fighter1 = new PlayerUnit("PlayerUnit", SpawnPointList[0]);
+        //InputManager.Instance.AssignUnitToNextController(fighter1);
+        //Unit fighter2 = new NPCUnit("PlayerUnit", SpawnPointList[1]);
+        //fighter2.UnitParentObj.name = "NPC";
+        //CameraManager.Instance.AddTarget(fighter2.UnitObj);
+
+        
+        //CameraManager.Instance.AddTarget(fighter1.UnitObj);
+
+        //AliveFightersList.Add(fighter1);
+        //AliveFightersList.Add(fighter2);
 
         StartFight();
         
