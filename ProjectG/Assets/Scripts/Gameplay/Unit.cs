@@ -21,6 +21,8 @@ public abstract class Unit
     protected Animator UnitAnimator;
     protected FullBodyBipedIK BodyIK;
 
+    public Action TakeDamage;
+
     // -- Gameplay Vars
     // To-DO: Expose a scriptable object or something (conect to Unit Data)
     private float m_RotationSpeed = 0.2f;
@@ -68,6 +70,26 @@ public abstract class Unit
     public void Update()
     {
 
+    }
+
+    public void DecreaseHealthBy(int value)
+    {
+        if (value > Data.Health) {
+            Data.Health = 0;
+        } else {
+            Data.Health -= value;
+        }
+        TakeDamage();
+    }
+
+    public int CurrentHealth()
+    {
+        return Data.Health;
+    }
+
+    public float HealthPercentage()
+    {
+        return Data.Health / 100;
     }
 
     //-- COMMAND QUEUE -----------------------------------------------------------
