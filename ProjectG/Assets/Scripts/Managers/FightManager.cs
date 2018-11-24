@@ -29,6 +29,8 @@ public class FightManager : Singleton<FightManager>
     private float m_TurnTrigger;
     private float m_TurnTimer;
 
+    private DowntimeCounter downtime;
+
     //-----------------------------------------------------------------
 
     public FightManager()
@@ -47,6 +49,8 @@ public class FightManager : Singleton<FightManager>
         m_CurrentState = TurnState.INTRO_STATE;
         m_TurnTrigger = m_Data.TurnTime;
         m_WaitForInputTrigger = m_Data.WaitForInputTime / (1 / m_Data.SlowDownScale);
+
+     
 
         SpawnPointList = new List<Vector3>(GetSpawnPoints(ArenaObject));
 
@@ -90,10 +94,17 @@ public class FightManager : Singleton<FightManager>
                 break;
             case TurnState.FIGHTING_TIME_STOPPED:
             {
+              
                 m_WaitForInputTimer += Time.deltaTime;
                 if(m_WaitForInputTimer > m_WaitForInputTrigger)
                 {
+                    downtime.Count = false;
                     GoToTimeRunningState();
+                }
+                else
+                {
+                    downtime.Count = true;
+                    downtime.timerTrgger = m_WaitForInputTimer;
                 }
 
                 for(int i = 0; i < AliveFightersList.Count; i++)
