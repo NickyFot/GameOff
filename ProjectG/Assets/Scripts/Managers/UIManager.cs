@@ -17,7 +17,7 @@ public class UIManager : Singleton<UIManager>
 
     #region Function Vars
 
-    // Fade 
+    // Fade
     private const float FADE_SPEED = 0.6f;
 
     private float m_FadeTimer;
@@ -76,16 +76,16 @@ public class UIManager : Singleton<UIManager>
         Credits = new CreditsUI();
         GameUI = new InGameUI();
 
+        // FIXME need a way to grab these names from the FightManager @RUI
         //debug
         CreatePlayerUIPanel("Sharkhead Strongpunch");
         CreatePlayerUIPanel("Guyshark Finwood");
         CreatePlayerUIPanel("Captain Sharkbeard");
         CreatePlayerUIPanel("Fin the Sharkman");
-
     }
 
     //-----------------------------------------------------------------
-    
+
     public void CreatePlayerUIPanel(string playerName)
     {
         GameUI.CreatePanel(playerName);
@@ -113,6 +113,8 @@ public class UIManager : Singleton<UIManager>
             ClearFadeLists();
             OnTransitionsEnd();
         }
+
+        //GameUI.
     }
 
     //-----------------------------------------------------------------
@@ -206,7 +208,7 @@ public class UIManager : Singleton<UIManager>
                             Color col = m_FadeDetailsList[i].go.GetComponent<SpriteRenderer>().color;
                             m_FadeDetailsList[i].go.GetComponent<SpriteRenderer>().color = new Color(col.r, col.g, col.b, Mathf.SmoothStep(m_FadeDetailsList[i].InitAlpha, 1, m_FadeDetailsList[i].FadeTimer));
                         }
-                    }                   
+                    }
                 }
                 else
                 {

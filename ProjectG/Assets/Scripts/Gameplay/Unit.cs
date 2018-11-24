@@ -12,6 +12,11 @@ public abstract class Unit
     //-- VARIABLES --------------------------------------------------------------
     // -- Data
     public UnitData Data;
+    public string Name {
+        get {
+            return Data.Name;
+        }
+    }
 
     // -- Object
     public GameObject UnitParentObj;
@@ -21,7 +26,7 @@ public abstract class Unit
     protected Animator UnitAnimator;
     protected FullBodyBipedIK BodyIK;
 
-    public Action TakeDamage;
+    public Action OnTakeDamage;
 
     // -- Gameplay Vars
     // To-DO: Expose a scriptable object or something (conect to Unit Data)
@@ -57,19 +62,20 @@ public abstract class Unit
 
     //-- CONSTRUCTOR -------------------------------------------------------------
 
-    public Unit(string prefabName)
+    public Unit(string prefabName, string name)
     {
         UnitParentObj = Object.Instantiate(Resources.Load<GameObject>(prefabName));
         UnitAnimator = UnitParentObj.GetComponentInChildren<Animator>();
         UnitObj = UnitAnimator.gameObject;
         BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
+        Data = new UnitData(name);
     }
 
     //-- UPDATE ----------------------------------------------------------------
 
     public void Update()
     {
-
+        // TODO
     }
 
     public void DecreaseHealthBy(int value)
@@ -79,7 +85,12 @@ public abstract class Unit
         } else {
             Data.Health -= value;
         }
-        TakeDamage();
+
+        if (OnTakeDamage != null) {
+            OnTakeDamage();
+        } else {
+            Debug.LogWarning("OnTakeDamage not set!");
+        }
     }
 
     public int CurrentHealth()

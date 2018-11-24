@@ -52,22 +52,25 @@ public class FightManager : Singleton<FightManager>
 
         SpawnPointList = new List<Vector3>(GetSpawnPoints(ArenaObject));
 
-        Unit fighter1 = new PlayerUnit("PlayerUnit", SpawnPointList[0]);
+        Unit fighter1 = new PlayerUnit("PlayerUnit", "Guyshark Finwood", SpawnPointList[0]);
         InputManager.Instance.AssignUnitToNextController(fighter1);
 
         CameraManager.Instance.InitCamera(Vector3.zero);
         CameraManager.Instance.SetCameraPositionBoundaries(14, -14f, 15f, -15f);
         CameraManager.Instance.AddTarget(fighter1.UnitObj);
 
-        Unit fighter2 = new NPCUnit("PlayerUnit", SpawnPointList[1]);
+        Unit fighter2 = new NPCUnit("PlayerUnit", "Sharkhead Strongpunch", SpawnPointList[1]);
         fighter2.UnitParentObj.name = "NPC";
         CameraManager.Instance.AddTarget(fighter2.UnitObj);
 
         AliveFightersList.Add(fighter1);
         AliveFightersList.Add(fighter2);
 
+        AliveFightersList.ForEach(fighter => {
+            fighter.OnTakeDamage = () => { UIManager.Instance.GameUI.UpdateHpFor(fighter.Name, fighter.HealthPercentage()); };
+        });
+
         StartFight();
-        
 
         //Unit fighter3 = new NPCUnit("PlayerUnit", SpawnPointList[1]);
         //fighter3.UnitObj.name = "NPC";
@@ -92,7 +95,7 @@ public class FightManager : Singleton<FightManager>
                 break;
             case TurnState.FIGHTING_TIME_STOPPED:
             {
-              
+
                 m_WaitForInputTimer += Time.deltaTime;
                 if(m_WaitForInputTimer > m_WaitForInputTrigger)
                 {
@@ -147,6 +150,8 @@ public class FightManager : Singleton<FightManager>
 
     private void GoToTimeRunningState()
     {
+        FightManager.Instance.AliveFightersList.ForEach(fighter => { fighter.DecreaseHealthBy(10); });
+
         m_TurnTimer = 0;
         m_CurrentState = TurnState.FIGHTING_TIME_RUNNING;
         Time.timeScale = 1;
