@@ -25,12 +25,7 @@ public class InGameUI : UIPanel
 
     public InGameUI()
     {
-        SetupUI();
-    }
-
-    public override void SetupUI()
-    {
-        PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
+         PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
         if(m_CountDown == null)
         {
             GameObject temp = GameObject.Instantiate(Resources.Load<GameObject>("CountDownUI"), PanelObj.transform);

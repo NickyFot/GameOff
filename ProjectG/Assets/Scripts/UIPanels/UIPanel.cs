@@ -22,11 +22,6 @@ public abstract class UIPanel
         }
     }
 
-
-    //-----------------------------------------------------------------
-
-    public abstract void SetupUI();
-
     public virtual void ShowPanel()
     {
         UIManager.Instance.FadeInUI(PanelObj, 0.6f, true);
