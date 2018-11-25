@@ -30,7 +30,7 @@ public class CameraManager : Singleton<CameraManager>
 
     private List<GameObject> m_CameraTargets = new List<GameObject>();
 
-    private Vector3 m_CameraZoom;
+    private float m_CameraZoom;
 
     private Vector3 m_PosVel;
      
@@ -42,16 +42,21 @@ public class CameraManager : Singleton<CameraManager>
     private float m_NortMostFrustrum;
     private float m_SouthMostFrustrum;
 
+    private float aspectRatio;
+    private float tanFov;
+
     public bool dzEnabled;
 
     //-- Init -----------------------------------------------------------
 
-    public void InitCamera(Vector3 initPosition, float minZoom = 4, float maxZoom = 15 )
+    public void InitCamera(Vector3 initPosition, float minZoom = 4, float maxZoom = 20 )
     {
         MainCamera.transform.position = initPosition;
         SetCameraZoomBoundaries(minZoom, maxZoom);
-        SetCameraZoom(maxZoom * 0.5f);
-        if(m_EastMostFrustrum == 0f && m_WestMostFrustrum == 0f && m_NortMostFrustrum == 0f && m_SouthMostFrustrum == 0f)
+        SetCameraZoom(maxZoom);
+        aspectRatio = Screen.width / Screen.height;
+        tanFov = Mathf.Tan(Mathf.Deg2Rad * MainCamera.GetComponent<Camera>().fieldOfView * 0.5f);
+        if (m_EastMostFrustrum == 0f && m_WestMostFrustrum == 0f && m_NortMostFrustrum == 0f && m_SouthMostFrustrum == 0f)
         {
             SetCameraPositionBoundaries(6f, -6f, 10f, -10f);
         }        
@@ -77,19 +82,17 @@ public class CameraManager : Singleton<CameraManager>
         if (m_CameraTargets.Count <= 0) return;
 
         // Dynamically fit targets into view
-        DynamicCameraZoom();
-
+        DynamicCameraZoom();    
         Vector3 FocalPoint = GetFocalPoint(m_CameraTargets);
-        //Debug.Log(FocalPoint.x);
 
         MainCamera.transform.LookAt(FocalPoint);
+        Vector3 dir = (MainCamera.transform.position - FocalPoint).normalized;
+        float cameraDistance = (m_CameraZoom * 0.5f / aspectRatio) / tanFov;
+        Vector3 newPosition = FocalPoint + dir * (cameraDistance + 1f);
+        newPosition.y = Mathf.Max(newPosition.y, 4);
+        newPosition.z = Mathf.Min(newPosition.z, -2);
 
-        // Smoothly move camera and zoom
-        MainCamera.transform.position = Vector3.SmoothDamp(MainCamera.transform.position, FocalPoint + m_CameraZoom, ref m_PosVel, 0.1f);
-        //if(dzEnabled)
-        //{
-        //    CameraSeMena(m_CameraTargets[1]);
-        //}
+        MainCamera.transform.position = Vector3.SmoothDamp(MainCamera.transform.position, newPosition, ref m_PosVel, 0.1f);
     }
 
     //-- API Functions -----------------------------------------------------
@@ -119,7 +122,7 @@ public class CameraManager : Singleton<CameraManager>
     public void SetCameraZoom(float zoom)
     {
         if (zoom < m_MinCameraZoom || zoom > m_MaxCameraZoom) return;
-        m_CameraZoom = new Vector3(0, zoom, -zoom);
+        m_CameraZoom = zoom;
     }
 
     public void SetCameraZoomBoundaries(float min, float max)
@@ -152,27 +155,27 @@ public class CameraManager : Singleton<CameraManager>
         if (target.Count <= 0) return Vector3.zero;
         //if (target.Count == 1) return target[0].transform.position;
 
-        Vector3 focalPoint = target[0].transform.position;
+        Vector3 focalPoint = target[0].transform.position * 1.5f;
         if (target.Count > 1)
         {
             for (int i = 1; i < target.Count; i++)
             {
-                focalPoint = focalPoint + (target[i].transform.position - focalPoint) * 0.5f;
+                focalPoint = focalPoint + (target[i].transform.position * 1.7f - focalPoint) * 0.5f;
             }
         }
         //make sure it's within boundaries
-        float distance = Vector3.Distance(focalPoint, MainCamera.transform.position);
-        float frustrumHeight = 2.0f * distance * Mathf.Tan(MainCamera.GetComponent<Camera>().fieldOfView * 0.5f * Mathf.Deg2Rad);
-        float frustrumWidth = frustrumHeight * MainCamera.GetComponent<Camera>().aspect;
+        //float distance = Vector3.Distance(focalPoint, MainCamera.transform.position);
+        //float frustrumHeight = 2.0f * distance * Mathf.Tan(MainCamera.GetComponent<Camera>().fieldOfView * 0.5f * Mathf.Deg2Rad);
+        //float frustrumWidth = frustrumHeight * MainCamera.GetComponent<Camera>().aspect;
 
-        float maxX = m_EastMostFrustrum + frustrumWidth * 0.5f;
-        float minX = m_WestMostFrustrum - frustrumWidth * 0.5f;
+        //float maxX = m_EastMostFrustrum + frustrumWidth * 0.5f;
+        //float minX = m_WestMostFrustrum - frustrumWidth * 0.5f;
 
-        float maxZ = m_NortMostFrustrum - frustrumHeight * 0.5f;
-        float minZ = m_SouthMostFrustrum + frustrumHeight * 0.5f;
+        //float maxZ = m_NortMostFrustrum - frustrumHeight * 0.5f;
+        //float minZ = m_SouthMostFrustrum + frustrumHeight * 0.5f;
 
-        focalPoint.x = Mathf.Clamp(focalPoint.x, minX, maxX);
-        focalPoint.z = Mathf.Clamp(focalPoint.z, minZ, maxZ);
+        //focalPoint.x = Mathf.Clamp(focalPoint.x, minX, maxX);
+        //focalPoint.z = Mathf.Clamp(focalPoint.z, minZ, maxZ);
 
         return focalPoint;
     }
@@ -189,11 +192,11 @@ public class CameraManager : Singleton<CameraManager>
 
         if (zBase > xBase)
         {
-            SetCameraZoom(zBase * 1.25f * Mathf.Tan(60));
+            m_CameraZoom = zBase;
         }
         else
         {
-            SetCameraZoom(xBase * 1.25f * Mathf.Tan(60));
+            m_CameraZoom = xBase;
         }
     }
 

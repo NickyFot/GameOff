@@ -56,8 +56,8 @@ public class FightManager : Singleton<FightManager>
 
         SpawnPointList = new List<Vector3>(GetSpawnPoints(ArenaObject));
 
-        CameraManager.Instance.InitCamera(Vector3.zero);
-        CameraManager.Instance.SetCameraPositionBoundaries(14, -14f, 15f, -15f);
+        CameraManager.Instance.InitCamera(new Vector3(0f, 6f, -6f));
+        CameraManager.Instance.SetCameraPositionBoundaries(7.168935f, -7.168935f, 7.168935f, -7.168935f);
 
         for (int i = 0; i < numberPlayers; i++)
         {
