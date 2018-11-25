@@ -59,6 +59,10 @@ public abstract class Unit
     private float m_AttackTrigger;
     private float m_AttackTimer;
 
+    private bool m_IsInvulnerable;
+    private float m_InvulnerableTrigger = 1.5f;
+    private float m_InvulnerableTimer;
+
     // -- Movement Vars
     private float m_CurrentRotAngle;
     private float m_TargetRotAngle;
@@ -94,15 +98,28 @@ public abstract class Unit
                 IsAttacking = false;
             }
         }
+
+        if(m_IsInvulnerable)
+        {
+            m_InvulnerableTimer += Time.deltaTime;
+            if(m_InvulnerableTimer > m_InvulnerableTrigger)
+            {
+                m_InvulnerableTimer = 0;
+                m_IsInvulnerable = false;
+            }
+        }
     }
 
     public void DecreaseHealthBy(int value)
     {
+        if(m_IsInvulnerable) return;
         if (value > Data.Health) {
             Data.Health = 0;
         } else {
             Data.Health -= value;
         }
+
+        m_IsInvulnerable = true;
 
         if (OnTakeDamage != null) {
             OnTakeDamage();
@@ -118,7 +135,7 @@ public abstract class Unit
 
     public float HealthPercentage()
     {
-        return Data.Health / 100;
+        return (float)Data.Health / (float)Data.MaxHealth;
     }
 
     //-- COMMAND QUEUE -----------------------------------------------------------
