@@ -29,6 +29,8 @@ public abstract class Unit
     public Action OnTakeDamage;
 
     // -- Gameplay Vars
+    public UnitIdentifierMono UId { get; private set; }
+
     // To-DO: Expose a scriptable object or something (conect to Unit Data)
     private float m_RotationSpeed = 0.2f;
 
@@ -53,6 +55,10 @@ public abstract class Unit
     private float m_QueueTimer;
     private float m_QueueTrigger;
 
+    public bool IsAttacking { get; private set; }
+    private float m_AttackTrigger;
+    private float m_AttackTimer;
+
     // -- Movement Vars
     private float m_CurrentRotAngle;
     private float m_TargetRotAngle;
@@ -62,13 +68,16 @@ public abstract class Unit
 
     //-- CONSTRUCTOR -------------------------------------------------------------
 
-    public Unit(string prefabName, string name)
+    public Unit(string prefabName, string name, int unitID)
     {
         UnitParentObj = Object.Instantiate(Resources.Load<GameObject>(prefabName));
         UnitAnimator = UnitParentObj.GetComponentInChildren<Animator>();
         UnitObj = UnitAnimator.gameObject;
         BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
         Data = new UnitData(name);
+        UId = UnitParentObj.GetComponent<UnitIdentifierMono>();
+        UId.UnitID = unitID;
+        UId.UnitRef = this;
     }
 
     //-- UPDATE ----------------------------------------------------------------
@@ -76,6 +85,15 @@ public abstract class Unit
     public void Update()
     {
         UpdateQueue();
+        if(IsAttacking)
+        {
+            m_AttackTimer += Time.deltaTime;
+            if(m_AttackTimer > m_AttackTrigger)
+            {
+                m_AttackTimer = 0;
+                IsAttacking = false;
+            }
+        }
     }
 
     public void DecreaseHealthBy(int value)
@@ -191,6 +209,9 @@ public abstract class Unit
         if(animID == null) return;
 
         UnitAnimator.SetTrigger(animID);
+        m_AttackTrigger = 1.5f; //UnitAnimator.GetCurrentAnimatorClipInfo(0).Length;
+        IsAttacking = true;
+        
         AudioManager.Instance.Play3DAudio(Resources.Load<AudioClip>("Audio/Woosh"), UnitObj.transform.position, 30, 40);
     }
 
