@@ -20,12 +20,6 @@ public class PlaySettingsUI : UIPanel
     //-----------------------------------------------------------------
     public PlaySettingsUI()
     {
-        SetupUI();
-    }
-    //-----------------------------------------------------------------
-
-    public override void SetupUI()
-    {
         m_Counter = 2;
         PanelObj = UIManager.MainCanvas.transform.Find("PlaySettings").gameObject;
         m_NumbPlayers = PanelObj.transform.Find("number of players").GetComponent<Text>();

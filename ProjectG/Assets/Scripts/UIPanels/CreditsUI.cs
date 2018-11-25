@@ -12,12 +12,6 @@ public class CreditsUI : UIPanel
     //-----------------------------------------------------------------
     public CreditsUI()
     {
-        SetupUI();
-    }
-    //-----------------------------------------------------------------
-
-    public override void SetupUI()
-    {
         PanelObj = UIManager.MainCanvas.transform.Find("Credits").gameObject;
 
         BackBtn = PanelObj.transform.Find("BackButton").GetComponent<Button>();
