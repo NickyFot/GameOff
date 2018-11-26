@@ -66,11 +66,11 @@ public class FightManager : Singleton<FightManager>
             AliveFightersList.Add(fighter);
             CameraManager.Instance.AddTarget(fighter.UnitObj);
             UIManager.Instance.GameUI.CreatePanel(DataManager.Data.CharacterNames[i]);
-        }
 
-        AliveFightersList.ForEach(fighter => {
+            // moved here for simplicity
             fighter.OnTakeDamage = () => { UIManager.Instance.GameUI.UpdateHpFor(fighter.Name, fighter.HealthPercentage()); };
-        });
+            fighter.OnDeath = () => Die(fighter);
+        }
 
         StartFight();
     }
@@ -172,4 +172,15 @@ public class FightManager : Singleton<FightManager>
     }
 
     //-----------------------------------------------------------------
+
+    private void Die(Unit fighter)
+    {
+        AliveFightersList.Remove(fighter);
+        CameraManager.Instance.RemoveTarget(fighter.UnitObj);
+        Debug.Log("DEATH!!");
+        if(AliveFightersList.Count == 1)
+        {
+            //dostuff
+        }
+    }
 }

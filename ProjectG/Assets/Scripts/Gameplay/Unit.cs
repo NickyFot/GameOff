@@ -27,6 +27,7 @@ public abstract class Unit
     protected FullBodyBipedIK BodyIK;
 
     public Action OnTakeDamage;
+    public Action OnDeath;
 
     // -- Gameplay Vars
     public UnitIdentifierMono UId { get; private set; }
@@ -110,6 +111,7 @@ public abstract class Unit
         }
     }
 
+    //-- HEALTH DECREASE ----------------------------------------------------------------
     public void DecreaseHealthBy(int value)
     {
         if(m_IsInvulnerable) return;
@@ -117,6 +119,18 @@ public abstract class Unit
             Data.Health = 0;
         } else {
             Data.Health -= value;
+        }
+
+        if(Data.Health == 0)
+        {
+            if(OnDeath != null)
+            {
+                OnDeath();
+            }
+            else
+            {
+                Debug.LogWarning("OnDeath not set!");
+            }
         }
 
         m_IsInvulnerable = true;

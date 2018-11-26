@@ -89,7 +89,7 @@ public class CameraManager : Singleton<CameraManager>
         Vector3 dir = (MainCamera.transform.position - FocalPoint).normalized;
         float cameraDistance = (m_CameraZoom * 0.5f / aspectRatio) / tanFov;
         Vector3 newPosition = FocalPoint + dir * (cameraDistance + 1f);
-        newPosition.y = Mathf.Max(newPosition.y, 4);
+        newPosition.y = Mathf.Max(newPosition.y, 3);
         newPosition.z = Mathf.Min(newPosition.z, -2);
 
         MainCamera.transform.position = Vector3.SmoothDamp(MainCamera.transform.position, newPosition, ref m_PosVel, 0.1f);
@@ -153,7 +153,6 @@ public class CameraManager : Singleton<CameraManager>
     private Vector3 GetFocalPoint(List<GameObject> target)
     { 
         if (target.Count <= 0) return Vector3.zero;
-        //if (target.Count == 1) return target[0].transform.position;
 
         Vector3 focalPoint = target[0].transform.position * 1.5f;
         if (target.Count > 1)
@@ -192,11 +191,11 @@ public class CameraManager : Singleton<CameraManager>
 
         if (zBase > xBase)
         {
-            m_CameraZoom = zBase;
+            SetCameraZoom(zBase);
         }
         else
         {
-            m_CameraZoom = xBase;
+            SetCameraZoom(xBase);
         }
     }
 
