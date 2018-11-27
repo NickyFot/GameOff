@@ -90,9 +90,21 @@ public class CameraManager : Singleton<CameraManager>
         float cameraDistance = (m_CameraZoom * 0.5f / aspectRatio) / tanFov;
         Vector3 newPosition = FocalPoint + dir * (cameraDistance + 1f);
         newPosition.y = Mathf.Max(newPosition.y, 3);
-        newPosition.z = Mathf.Min(newPosition.z, -2);
+        if (Mathf.Abs(newPosition.z - FocalPoint.z) < 4.5f)
+        {
+            newPosition.z -= 2;
+        }
+        for(int i = 0; i < m_CameraTargets.Count; i++)
+        {
+            if(newPosition.z - m_CameraTargets[i].transform.position.z < 4.5f)
+            {
+                newPosition.z -= 2;
+            }
+        }
 
-        MainCamera.transform.position = Vector3.SmoothDamp(MainCamera.transform.position, newPosition, ref m_PosVel, 0.1f);
+        newPosition.y += 1.5f;
+
+        MainCamera.transform.position = Vector3.SmoothDamp(MainCamera.transform.position, newPosition, ref m_PosVel, 0.5f);
     }
 
     //-- API Functions -----------------------------------------------------
