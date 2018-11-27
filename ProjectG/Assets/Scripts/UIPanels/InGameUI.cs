@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class InGameUI : UIPanel
 {
     private CountdownUI m_CountDown;
+    public Action OnCountdownEnd = delegate { };
 
     private GameObject m_TimerPanel;
     private TextMeshProUGUI m_TurnTimerText;

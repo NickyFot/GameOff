@@ -24,12 +24,18 @@ public abstract class Unit
 
     protected SkinnedMeshRenderer[] p_SkinnedMeshes;
 
+    public bool IsDead
+    {
+        get { return Data.Health == 0; }
+    }
+
     // -- Animators
     protected Animator p_UnitAnimator;
     protected FullBodyBipedIK p_BodyIK;
+    protected PuppetMaster p_Puppet;
 
-    public Action OnTakeDamage;
-    public Action OnDeath;
+    public Action OnTakeDamage = delegate { };
+    public Action OnDeath = delegate { };
 
     // -- Gameplay Vars
     public UnitIdentifierMono UId { get; private set; }
@@ -81,6 +87,7 @@ public abstract class Unit
         p_UnitAnimator = UnitParentObj.GetComponentInChildren<Animator>();
         UnitObj = p_UnitAnimator.gameObject;
         p_BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
+        p_Puppet = UnitParentObj.GetComponentInChildren<PuppetMaster>();
         Data = new UnitData(name);
         UId = UnitParentObj.GetComponent<UnitIdentifierMono>();
         UId.UnitID = unitID;
@@ -99,6 +106,7 @@ public abstract class Unit
 
     public void Update()
     {
+        if(IsDead) return;
         UpdateQueue();
         if(IsAttacking)
         {
@@ -122,26 +130,19 @@ public abstract class Unit
     }
 
     //-- HEALTH DECREASE ----------------------------------------------------------------
+
     public void DecreaseHealthBy(int value)
     {
         if(m_IsInvulnerable) return;
         if (value > Data.Health) {
             Data.Health = 0;
-        } else {
+            OnDeath();
+        }
+        else {
             Data.Health -= value;
         }
 
-        if(Data.Health == 0)
-        {
-            if(OnDeath != null)
-            {
-                OnDeath();
-            }
-            else
-            {
-                Debug.LogWarning("OnDeath not set!");
-            }
-        }
+        p_Puppet.state = Data.Health == 0 ? PuppetMaster.State.Dead : PuppetMaster.State.Alive;
 
         m_IsInvulnerable = true;
 
@@ -155,6 +156,15 @@ public abstract class Unit
     public int CurrentHealth()
     {
         return Data.Health;
+    }
+
+    public void ResetHealth()
+    {
+        Data.Health = Data.MaxHealth;
+        p_Puppet.state = PuppetMaster.State.Alive;
+        OnTakeDamage(); // Update UI
+        m_IsInvulnerable = false;
+        IsAttacking = false;
     }
 
     public float HealthPercentage()
@@ -250,7 +260,7 @@ public abstract class Unit
         if(animID == null) return;
 
         p_UnitAnimator.SetTrigger(animID);
-        m_AttackTrigger = 1.5f; //UnitAnimator.GetCurrentAnimatorClipInfo(0).Length;
+        m_AttackTrigger = 1.2f; //UnitAnimator.GetCurrentAnimatorClipInfo(0).Length;
         IsAttacking = true;
         
         AudioManager.Instance.Play3DAudio(Resources.Load<AudioClip>("Audio/Woosh"), UnitObj.transform.position, 30, 40);

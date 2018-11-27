@@ -13,6 +13,7 @@ public class FightManager : Singleton<FightManager>
     // -- Setup Vars
     public List<Vector3> SpawnPointList = new List<Vector3>();
     public List<Unit> AliveFightersList = new List<Unit>();
+    public List<Unit> ActiveFightersList = new List<Unit>();
 
     // -- Gameplay Vars
     private enum TurnState
@@ -37,6 +38,8 @@ public class FightManager : Singleton<FightManager>
         //{
         //    DataManager = Resources.Load<GameplayData>("ScriptableObjects/GameplayData");
         //}
+
+        UIManager.Instance.GameUI.OnCountdownEnd = StartFight;
     }
 
     //-----------------------------------------------------------------
@@ -44,7 +47,7 @@ public class FightManager : Singleton<FightManager>
     // TO - DO: ADD LEVEL PARAM
     public void SetupNewRound()
     {
-        InputManager.Instance.InputEnabled = true;
+        InputManager.Instance.InputEnabled = false;
 
         m_CurrentState = TurnState.INTRO_STATE;
         m_TurnTrigger = DataManager.Data.TurnTime;
@@ -52,27 +55,38 @@ public class FightManager : Singleton<FightManager>
 
         int numberPlayers = UIManager.Instance.PlaySettings.Counter;
 
-        GameObject PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
-
-        SpawnPointList = new List<Vector3>(GetSpawnPoints(ArenaObject));
+        if(SpawnPointList.Count == 0)
+        {
+            SpawnPointList = new List<Vector3>(GetSpawnPoints(ArenaObject));
+        }
 
         CameraManager.Instance.InitCamera(new Vector3(0f, 6f, -6f));
         CameraManager.Instance.SetCameraPositionBoundaries(7.168935f, -7.168935f, 7.168935f, -7.168935f);
 
-        for (int i = 0; i < numberPlayers; i++)
+        if(ActiveFightersList.Count == 0)
         {
-            Unit fighter = new PlayerUnit("SharkDude", DataManager.Data.CharacterNames[i], i, SpawnPointList[i % 2]);
-            InputManager.Instance.AssignUnitToNextController(fighter);
-            AliveFightersList.Add(fighter);
-            CameraManager.Instance.AddTarget(fighter.UnitObj);
-            UIManager.Instance.GameUI.CreatePanel(DataManager.Data.CharacterNames[i]);
+            for(int i = 0; i < numberPlayers; i++)
+            {
+                Unit fighter = new PlayerUnit("SharkDude", DataManager.Data.CharacterNames[i], i, SpawnPointList[i % 2]);
+                InputManager.Instance.AssignUnitToNextController(fighter);
+                AliveFightersList.Add(fighter);
+                ActiveFightersList.Add(fighter);
+                UIManager.Instance.GameUI.CreatePanel(DataManager.Data.CharacterNames[i]);
 
-            // moved here for simplicity
-            fighter.OnTakeDamage = () => { UIManager.Instance.GameUI.UpdateHpFor(fighter.Name, fighter.HealthPercentage()); };
-            fighter.OnDeath = () => Die(fighter);
+                // moved here for simplicity
+                fighter.OnTakeDamage = () => { UIManager.Instance.GameUI.UpdateHpFor(fighter.Name, fighter.HealthPercentage()); };
+                fighter.OnDeath = () => Die(fighter);
+            }
         }
 
-        StartFight();
+        for(int i = 0; i < ActiveFightersList.Count; i++)
+        {
+            CameraManager.Instance.AddTarget(ActiveFightersList[i].UnitObj);
+            ActiveFightersList[i].ResetHealth();
+            ActiveFightersList[i].ResetQueue();
+        }
+
+        UIManager.Instance.StartCountDown();
     }
 
     //-----------------------------------------------------------------
@@ -87,14 +101,10 @@ public class FightManager : Singleton<FightManager>
         switch(m_CurrentState)
         {
             case TurnState.INTRO_STATE:
-                if (Input.GetKey(KeyCode.Space))
-                {
-                    GoToTimeStoppedState();
-                }
+                // Wait
                 break;
             case TurnState.FIGHTING_TIME_STOPPED:
             {
-
                 m_WaitForInputTimer += Time.deltaTime;
                 if(m_WaitForInputTimer > m_WaitForInputTrigger)
                 {
@@ -133,7 +143,13 @@ public class FightManager : Singleton<FightManager>
     private void StartFight()
     {
         UIManager.Instance.GameUI.ShowPanel();
-        UIManager.Instance.StartCountDown();
+        InputManager.Instance.InputEnabled = true;
+        GoToTimeStoppedState();
+    }
+
+    private void GoToIntroState()
+    {
+        SetupNewRound();
     }
 
     private void GoToTimeStoppedState()
@@ -158,6 +174,11 @@ public class FightManager : Singleton<FightManager>
         Debug.Log("MOVING TO FIGHT_RUN");
     }
 
+    private void GoToEndState()
+    {
+        m_CurrentState = TurnState.END_STATE;
+    }
+
     //-----------------------------------------------------------------
 
     private List<Vector3> GetSpawnPoints(GameObject Level)
@@ -180,7 +201,7 @@ public class FightManager : Singleton<FightManager>
         Debug.Log("DEATH!!");
         if(AliveFightersList.Count == 1)
         {
-            //dostuff
+            GoToEndState();
         }
     }
 
