@@ -18,7 +18,7 @@ public class ColliderReceiverMono : MonoBehaviour
     {
         if(unit.UnitRef.IsAttacking)
         {
-            if(other.tag == "DamageableCollider") // We hit the correct collider
+            if(other.CompareTag("DamageableCollider")) // We hit the correct collider
             {
                 UnitIdentifierMono otherUnitRef = other.transform.root.GetComponent<UnitIdentifierMono>();
                 if(otherUnitRef == null) return;
