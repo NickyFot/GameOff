@@ -183,4 +183,6 @@ public class FightManager : Singleton<FightManager>
             //dostuff
         }
     }
+
+    //-----------------------------------------------------------------
 }

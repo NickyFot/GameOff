@@ -22,9 +22,11 @@ public abstract class Unit
     public GameObject UnitParentObj;
     public GameObject UnitObj;
 
+    protected SkinnedMeshRenderer[] p_SkinnedMeshes;
+
     // -- Animators
-    protected Animator UnitAnimator;
-    protected FullBodyBipedIK BodyIK;
+    protected Animator p_UnitAnimator;
+    protected FullBodyBipedIK p_BodyIK;
 
     public Action OnTakeDamage;
     public Action OnDeath;
@@ -76,13 +78,21 @@ public abstract class Unit
     public Unit(string prefabName, string name, int unitID)
     {
         UnitParentObj = Object.Instantiate(Resources.Load<GameObject>(prefabName));
-        UnitAnimator = UnitParentObj.GetComponentInChildren<Animator>();
-        UnitObj = UnitAnimator.gameObject;
-        BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
+        p_UnitAnimator = UnitParentObj.GetComponentInChildren<Animator>();
+        UnitObj = p_UnitAnimator.gameObject;
+        p_BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
         Data = new UnitData(name);
         UId = UnitParentObj.GetComponent<UnitIdentifierMono>();
         UId.UnitID = unitID;
         UId.UnitRef = this;
+
+        p_SkinnedMeshes = UnitParentObj.GetComponentsInChildren<SkinnedMeshRenderer>();
+        Material mat = UnitData.GetMaterial(unitID);
+
+        for(int i = 0; i < p_SkinnedMeshes.Length; i++)
+        {
+            p_SkinnedMeshes[i].material = mat;
+        }
     }
 
     //-- UPDATE ----------------------------------------------------------------
@@ -186,12 +196,12 @@ public abstract class Unit
 
     public void MoveCommand(float x, float y)
     {
-        if(UnitAnimator == null) return;
+        if(p_UnitAnimator == null) return;
 
         Vector3 dir = new Vector3(y, 0, -x);
         float speed = dir.magnitude;
 
-        UnitAnimator.SetFloat(AnimationID.MoveSpeed, speed);
+        p_UnitAnimator.SetFloat(AnimationID.MoveSpeed, speed);
 
         if(dir.x != 0 || dir.z != 0)
         {
@@ -239,7 +249,7 @@ public abstract class Unit
         string animID = AnimationID.GetAttackLimb(limb);
         if(animID == null) return;
 
-        UnitAnimator.SetTrigger(animID);
+        p_UnitAnimator.SetTrigger(animID);
         m_AttackTrigger = 1.5f; //UnitAnimator.GetCurrentAnimatorClipInfo(0).Length;
         IsAttacking = true;
         
@@ -259,7 +269,7 @@ public abstract class Unit
         string animID = AnimationID.GetBlock();
         if(animID == null) return;
 
-        UnitAnimator.SetTrigger(animID);
+        p_UnitAnimator.SetTrigger(animID);
     }
 
 
@@ -275,7 +285,7 @@ public abstract class Unit
         string animID = AnimationID.GetIdle();
         if(animID == null) return;
 
-        UnitAnimator.SetTrigger(animID);
+        p_UnitAnimator.SetTrigger(animID);
     }
 
 
@@ -291,7 +301,7 @@ public abstract class Unit
         string animID = AnimationID.GetTaunt();
         if(animID == null) return;
 
-        UnitAnimator.SetTrigger(animID);
+        p_UnitAnimator.SetTrigger(animID);
     }
 
     #endregion
