@@ -87,7 +87,7 @@ public class FightManager : Singleton<FightManager>
             ActiveFightersList[i].ResetQueue();
         }
 
-        UIManager.Instance.StartCountDown();
+        
     }
 
     //-----------------------------------------------------------------
@@ -164,6 +164,7 @@ public class FightManager : Singleton<FightManager>
         UIManager.Instance.GameUI.ShowPanel();
         InputManager.Instance.InputEnabled = true;
         GoToTimeStoppedState();
+        UIManager.Instance.StartCountDown();
     }
 
     private void GoToIntroState()
