@@ -36,11 +36,6 @@ public class FightManager : Singleton<FightManager>
 
     public FightManager()
     {
-        //if(DataManager == null)
-        //{
-        //    DataManager = Resources.Load<GameplayData>("ScriptableObjects/GameplayData");
-        //}
-
         UIManager.Instance.GameUI.SetOnCountdownEnd(StartFight);
     }
 
