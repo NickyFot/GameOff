@@ -14,14 +14,7 @@ public class MainMenuUI : UIPanel
 
     public MainMenuUI()
     {
-        SetupUI();
-    }
-
-    //-----------------------------------------------------------------
-
-    public override void SetupUI()
-    {
-        PanelObj = UIManager.MainCanvas.transform.Find("MainMenu").gameObject;
+       PanelObj = UIManager.MainCanvas.transform.Find("MainMenu").gameObject;
 
         m_PlayBtn = PanelObj.transform.Find("PlayButton").GetComponent<Button>();
         SetButtonMethod(m_PlayBtn, PlayAction);

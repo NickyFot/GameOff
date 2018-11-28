@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class InGameUI : UIPanel
 {
@@ -25,12 +26,7 @@ public class InGameUI : UIPanel
 
     public InGameUI()
     {
-        SetupUI();
-    }
-
-    public override void SetupUI()
-    {
-        PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
+         PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
         if(m_CountDown == null)
         {
             GameObject temp = GameObject.Instantiate(Resources.Load<GameObject>("CountDownUI"), PanelObj.transform);
@@ -81,6 +77,11 @@ public class InGameUI : UIPanel
     public void UpdateHpFor(string playerName, float hpPercentage)
     {
         playerPanels[playerName].UpdateHPBar(hpPercentage);
+    }
+
+    public void SetOnCountdownEnd(Action action)
+    {
+        m_CountDown.OnCountdownEnd = action;
     }
 
     private class PlayerPanel

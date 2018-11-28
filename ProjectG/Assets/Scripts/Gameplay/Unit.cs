@@ -22,13 +22,24 @@ public abstract class Unit
     public GameObject UnitParentObj;
     public GameObject UnitObj;
 
-    // -- Animators
-    protected Animator UnitAnimator;
-    protected FullBodyBipedIK BodyIK;
+    protected SkinnedMeshRenderer[] p_SkinnedMeshes;
 
-    public Action OnTakeDamage;
+    public bool IsDead
+    {
+        get { return Data.Health == 0; }
+    }
+
+    // -- Animators
+    protected Animator p_UnitAnimator;
+    protected FullBodyBipedIK p_BodyIK;
+    protected PuppetMaster p_Puppet;
+
+    public Action OnTakeDamage = delegate { };
+    public Action OnDeath = delegate { };
 
     // -- Gameplay Vars
+    public UnitIdentifierMono UId { get; private set; }
+
     // To-DO: Expose a scriptable object or something (conect to Unit Data)
     private float m_RotationSpeed = 0.2f;
 
@@ -53,6 +64,14 @@ public abstract class Unit
     private float m_QueueTimer;
     private float m_QueueTrigger;
 
+    public bool IsAttacking { get; private set; }
+    private float m_AttackTrigger;
+    private float m_AttackTimer;
+
+    private bool m_IsInvulnerable;
+    private float m_InvulnerableTrigger = 1.5f;
+    private float m_InvulnerableTimer;
+
     // -- Movement Vars
     private float m_CurrentRotAngle;
     private float m_TargetRotAngle;
@@ -62,29 +81,69 @@ public abstract class Unit
 
     //-- CONSTRUCTOR -------------------------------------------------------------
 
-    public Unit(string prefabName, string name)
+    public Unit(string prefabName, string name, int unitID)
     {
         UnitParentObj = Object.Instantiate(Resources.Load<GameObject>(prefabName));
-        UnitAnimator = UnitParentObj.GetComponentInChildren<Animator>();
-        UnitObj = UnitAnimator.gameObject;
-        BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
+        p_UnitAnimator = UnitParentObj.GetComponentInChildren<Animator>();
+        UnitObj = p_UnitAnimator.gameObject;
+        p_BodyIK = UnitObj.GetComponent<FullBodyBipedIK>();
+        p_Puppet = UnitParentObj.GetComponentInChildren<PuppetMaster>();
         Data = new UnitData(name);
+        UId = UnitParentObj.GetComponent<UnitIdentifierMono>();
+        UId.UnitID = unitID;
+        UId.UnitRef = this;
+
+        p_SkinnedMeshes = UnitParentObj.GetComponentsInChildren<SkinnedMeshRenderer>();
+        Material mat = UnitData.GetMaterial(unitID);
+
+        for(int i = 0; i < p_SkinnedMeshes.Length; i++)
+        {
+            p_SkinnedMeshes[i].material = mat;
+        }
     }
 
     //-- UPDATE ----------------------------------------------------------------
 
     public void Update()
     {
-        UpdateQueue();
+        if(IsDead) return;
+        if(IsAttacking)
+        {
+            m_AttackTimer += Time.deltaTime;
+            if(m_AttackTimer > m_AttackTrigger)
+            {
+                m_AttackTimer = 0;
+                IsAttacking = false;
+            }
+        }
+
+        if(m_IsInvulnerable)
+        {
+            m_InvulnerableTimer += Time.deltaTime;
+            if(m_InvulnerableTimer > m_InvulnerableTrigger)
+            {
+                m_InvulnerableTimer = 0;
+                m_IsInvulnerable = false;
+            }
+        }
     }
+
+    //-- HEALTH DECREASE ----------------------------------------------------------------
 
     public void DecreaseHealthBy(int value)
     {
+        if(m_IsInvulnerable) return;
         if (value > Data.Health) {
             Data.Health = 0;
-        } else {
+            OnDeath();
+        }
+        else {
             Data.Health -= value;
         }
+
+        p_Puppet.state = Data.Health == 0 ? PuppetMaster.State.Dead : PuppetMaster.State.Alive;
+
+        m_IsInvulnerable = true;
 
         if (OnTakeDamage != null) {
             OnTakeDamage();
@@ -98,9 +157,18 @@ public abstract class Unit
         return Data.Health;
     }
 
+    public void ResetHealth()
+    {
+        Data.Health = Data.MaxHealth;
+        p_Puppet.state = PuppetMaster.State.Alive;
+        OnTakeDamage(); // Update UI
+        m_IsInvulnerable = false;
+        IsAttacking = false;
+    }
+
     public float HealthPercentage()
     {
-        return Data.Health / 100;
+        return (float)Data.Health / (float)Data.MaxHealth;
     }
 
     //-- COMMAND QUEUE -----------------------------------------------------------
@@ -137,12 +205,12 @@ public abstract class Unit
 
     public void MoveCommand(float x, float y)
     {
-        if(UnitAnimator == null) return;
+        if(p_UnitAnimator == null) return;
 
         Vector3 dir = new Vector3(y, 0, -x);
         float speed = dir.magnitude;
 
-        UnitAnimator.SetFloat(AnimationID.MoveSpeed, speed);
+        p_UnitAnimator.SetFloat(AnimationID.MoveSpeed, speed);
 
         if(dir.x != 0 || dir.z != 0)
         {
@@ -190,7 +258,10 @@ public abstract class Unit
         string animID = AnimationID.GetAttackLimb(limb);
         if(animID == null) return;
 
-        UnitAnimator.SetTrigger(animID);
+        p_UnitAnimator.SetTrigger(animID);
+        m_AttackTrigger = 1.2f; //UnitAnimator.GetCurrentAnimatorClipInfo(0).Length;
+        IsAttacking = true;
+        
         AudioManager.Instance.Play3DAudio(Resources.Load<AudioClip>("Audio/Woosh"), UnitObj.transform.position, 30, 40);
     }
 
@@ -207,7 +278,7 @@ public abstract class Unit
         string animID = AnimationID.GetBlock();
         if(animID == null) return;
 
-        UnitAnimator.SetTrigger(animID);
+        p_UnitAnimator.SetTrigger(animID);
     }
 
 
@@ -223,7 +294,7 @@ public abstract class Unit
         string animID = AnimationID.GetIdle();
         if(animID == null) return;
 
-        UnitAnimator.SetTrigger(animID);
+        p_UnitAnimator.SetTrigger(animID);
     }
 
 
@@ -239,7 +310,7 @@ public abstract class Unit
         string animID = AnimationID.GetTaunt();
         if(animID == null) return;
 
-        UnitAnimator.SetTrigger(animID);
+        p_UnitAnimator.SetTrigger(animID);
     }
 
     #endregion
