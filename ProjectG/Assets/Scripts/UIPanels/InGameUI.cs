@@ -24,6 +24,8 @@ public class InGameUI : UIPanel
     private int m_PlayerCount = 0;
     private Dictionary<string, PlayerPanel> playerPanels = new Dictionary<string, PlayerPanel>(4);
     private GameObject m_WinningPanel;
+    private Button m_MainMenu;
+    private Button m_NewRound;
 
     public InGameUI()
     {
@@ -36,12 +38,35 @@ public class InGameUI : UIPanel
         m_TimerPanel = PanelObj.transform.Find("TurnTimer").gameObject;
         m_TurnTimerText = m_TimerPanel.GetComponent<TextMeshProUGUI>();
         m_WinningPanel = GameObject.Instantiate(Resources.Load<GameObject>("Winner"), PanelObj.transform);
+
+        m_MainMenu = m_WinningPanel.transform.Find("MainMenu").GetComponent<Button>();
+        SetButtonMethod(m_MainMenu, MainMenuAction);
+        m_NewRound = m_WinningPanel.transform.Find("NewRound").GetComponent<Button>();
+        SetButtonMethod(m_NewRound, NewRoundAction);
     }
 
     //-----Winner------------------------------------------------------------
     public void ShowWinner(bool enable)
     {
         m_WinningPanel.SetActive(enable);
+    }
+
+    private void NewRoundAction()
+    {
+        AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
+        m_WinningPanel.SetActive(false);
+        FightManager.Instance.SetupNewRound();
+
+    }
+
+    private void MainMenuAction()
+    {
+        AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
+        UIManager.Instance.GameUI.HidePanel();
+        //UIManager.Instance.WaitForTransitionToEnd(TransitionIntoGame);
+        //GameManager.Instance.TransitionToNewState(State<MainMenuState>());
+        UIManager.Instance.MainMenu.ShowPanel();
+        GameManager.Instance.GoToMainMenu();
     }
 
     //-----Timer------------------------------------------------------------
