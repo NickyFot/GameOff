@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class CountdownUI : MonoBehaviour
 {
     public GameObject[] States;
+    public Action OnCountdownEnd = delegate { };
+
     public float timerTrgger;
 
     private float m_TimerCounter;
@@ -54,6 +56,7 @@ public class CountdownUI : MonoBehaviour
         else
         {
             States[m_CurrentState - 1].SetActive(false);
+            OnCountdownEnd();
             Count = false;
         }
     }
