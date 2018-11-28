@@ -45,10 +45,9 @@ public class FightManager : Singleton<FightManager>
 
     //-----------------------------------------------------------------
 
-    // TO - DO: ADD LEVEL PARAM
     public void SetupNewRound()
     {
-        InputManager.Instance.InputEnabled = false;
+        InputManager.Instance.InputEnabled = true;
 
         m_CurrentState = TurnState.INTRO_STATE;
         m_TurnTrigger = DataManager.Data.TurnTime;
