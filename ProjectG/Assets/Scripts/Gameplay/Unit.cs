@@ -135,10 +135,14 @@ public abstract class Unit
         if(m_IsInvulnerable) return;
         if (value > Data.Health) {
             Data.Health = 0;
-            OnDeath();
         }
         else {
             Data.Health -= value;
+        }
+
+        if(Data.Health == 0)
+        {
+            OnDeath();
         }
 
         p_Puppet.state = Data.Health == 0 ? PuppetMaster.State.Dead : PuppetMaster.State.Alive;
