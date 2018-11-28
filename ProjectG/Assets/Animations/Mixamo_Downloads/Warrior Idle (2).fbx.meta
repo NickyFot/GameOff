@@ -711,10 +711,11 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 8aa0db37d9c8d6f449f15f92707ebf49,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: dbd9c7696e3572e4294053ad341d664f,
     type: 3}
   animationType: 3
   humanoidOversampling: 1

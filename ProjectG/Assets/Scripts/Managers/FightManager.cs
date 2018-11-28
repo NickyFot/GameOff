@@ -30,6 +30,7 @@ public class FightManager : Singleton<FightManager>
     private float m_TurnTrigger;
     private float m_TurnTimer;
 
+    private bool IsPaused = false;
     //-----------------------------------------------------------------
 
     public FightManager()
@@ -139,6 +140,20 @@ public class FightManager : Singleton<FightManager>
                 break;
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (IsPaused)
+            {
+                Time.timeScale = 1;
+                IsPaused = false;
+            }
+            else
+            {
+                Time.timeScale = 0;
+                IsPaused = true;
+            }
+
+        }
 
     }
 
