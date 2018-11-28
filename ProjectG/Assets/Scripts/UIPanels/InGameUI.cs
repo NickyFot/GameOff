@@ -24,6 +24,7 @@ public class InGameUI : UIPanel
 
     private int m_PlayerCount = 0;
     private Dictionary<string, PlayerPanel> playerPanels = new Dictionary<string, PlayerPanel>(4);
+    private GameObject m_WinningPanel;
 
     public InGameUI()
     {
@@ -35,9 +36,31 @@ public class InGameUI : UIPanel
         }
         m_TimerPanel = PanelObj.transform.Find("TurnTimer").gameObject;
         m_TurnTimerText = m_TimerPanel.GetComponent<TextMeshProUGUI>();
+        m_WinningPanel = GameObject.Instantiate(Resources.Load<GameObject>("Winner"), PanelObj.transform);
 
         m_PauseMenu = new PauseMenu(PanelObj.transform.Find("PausePanel").gameObject);
     }
+
+    //-----Winner------------------------------------------------------------
+    public void ShowWinner(bool enable)
+    {
+        m_WinningPanel.SetActive(enable);
+    }
+
+    //-----Timer------------------------------------------------------------
+
+    public void StartCountDown()
+    {
+        m_CountDown.Reset();
+        m_CountDown.Count = true;
+    }
+
+    public void ShowTurnTimer(bool enable)
+    {
+        m_TimerPanel.SetActive(enable);
+    }
+
+    //------Player Panels-----------------------------------------------------------
 
     public void CreatePanel(string playerName)
     {
@@ -64,17 +87,6 @@ public class InGameUI : UIPanel
                 panel.SetPosition(PanelPositions.Player4Center);
                 break;
         }
-    }
-
-    public void StartCountDown()
-    {
-        m_CountDown.Reset();
-        m_CountDown.Count = true;
-    }
-
-    public void ShowTurnTimer(bool enable)
-    {
-        m_TimerPanel.SetActive(enable);
     }
 
     public void UpdateHpFor(string playerName, float hpPercentage)
