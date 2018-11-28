@@ -79,6 +79,10 @@ public abstract class Unit
     private float m_TargetRotAngle;
     private float m_TargetRotVel;
 
+    private float m_CurrenttVel;
+    private float m_TargetVel;
+    private float m_VelRef;
+
     // -- IK Vars
 
     //-- CONSTRUCTOR -------------------------------------------------------------
@@ -109,6 +113,10 @@ public abstract class Unit
     public void Update()
     {
         if(IsDead) return;
+
+        m_CurrenttVel = Mathf.SmoothDamp(m_CurrenttVel, m_TargetVel, ref m_VelRef, 0.5f);
+        p_UnitAnimator.SetFloat(AnimationID.MoveSpeed, m_CurrenttVel);
+
         if(IsAttacking)
         {
             m_AttackTimer += Time.deltaTime;
@@ -237,7 +245,7 @@ public abstract class Unit
         Vector3 dir = new Vector3(y, 0, -x);
         float speed = dir.magnitude;
 
-        p_UnitAnimator.SetFloat(AnimationID.MoveSpeed, speed);
+        m_TargetVel = speed;
 
         if(dir.x != 0 || dir.z != 0)
         {
