@@ -73,5 +73,6 @@ public class PlaySettingsUI : UIPanel
         AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.PlaySettings.HidePanel();
         UIManager.Instance.MainMenu.ShowPanel();
+        p_CamSelector.SelectCamera(0);
     }
 }
