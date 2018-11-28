@@ -8,7 +8,6 @@ using System;
 public class InGameUI : UIPanel
 {
     private CountdownUI m_CountDown;
-    public Action OnCountdownEnd = delegate { };
 
     private GameObject m_TimerPanel;
     private TextMeshProUGUI m_TurnTimerText;
@@ -78,6 +77,11 @@ public class InGameUI : UIPanel
     public void UpdateHpFor(string playerName, float hpPercentage)
     {
         playerPanels[playerName].UpdateHPBar(hpPercentage);
+    }
+
+    public void SetOnCountdownEnd(Action action)
+    {
+        m_CountDown.OnCountdownEnd = action;
     }
 
     private class PlayerPanel

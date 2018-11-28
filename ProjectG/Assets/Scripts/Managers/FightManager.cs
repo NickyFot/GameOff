@@ -31,6 +31,7 @@ public class FightManager : Singleton<FightManager>
     private float m_TurnTimer;
 
     private bool IsPaused = false;
+
     //-----------------------------------------------------------------
 
     public FightManager()
@@ -40,7 +41,7 @@ public class FightManager : Singleton<FightManager>
         //    DataManager = Resources.Load<GameplayData>("ScriptableObjects/GameplayData");
         //}
 
-        UIManager.Instance.GameUI.OnCountdownEnd = StartFight;
+        UIManager.Instance.GameUI.SetOnCountdownEnd(StartFight);
     }
 
     //-----------------------------------------------------------------
@@ -129,7 +130,10 @@ public class FightManager : Singleton<FightManager>
                 {
                     GoToTimeStoppedState();
                 }
-
+                for(int i = 0; i < AliveFightersList.Count; i++)
+                {
+                    AliveFightersList[i].UpdateQueue();
+                }
                 break;
             }
             case TurnState.END_STATE:
@@ -162,6 +166,7 @@ public class FightManager : Singleton<FightManager>
     private void StartFight()
     {
         InputManager.Instance.InputEnabled = true;
+        Debug.Log("START");
         GoToTimeStoppedState();
     }
 

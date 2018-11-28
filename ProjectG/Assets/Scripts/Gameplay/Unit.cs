@@ -107,7 +107,6 @@ public abstract class Unit
     public void Update()
     {
         if(IsDead) return;
-        UpdateQueue();
         if(IsAttacking)
         {
             m_AttackTimer += Time.deltaTime;
