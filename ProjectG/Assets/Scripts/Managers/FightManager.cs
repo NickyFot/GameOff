@@ -132,6 +132,10 @@ public class FightManager : Singleton<FightManager>
                 break;
             }
             case TurnState.END_STATE:
+                if(Input.GetKeyDown(KeyCode.Space))
+                {
+                    GoToIntroState();
+                }
                 break;
         }
 
