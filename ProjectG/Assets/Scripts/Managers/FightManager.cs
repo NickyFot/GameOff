@@ -29,7 +29,7 @@ public class FightManager : Singleton<FightManager>
     private float m_WaitForInputTimer;
     private float m_TurnTrigger;
     private float m_TurnTimer;
-
+    private float m_TimeScale = 1.0F;
     private bool IsPaused = false;
 
     //-----------------------------------------------------------------
@@ -143,15 +143,16 @@ public class FightManager : Singleton<FightManager>
         {
             if (IsPaused)
             {
-                Time.timeScale = 1;
+                Time.timeScale = m_TimeScale;
                 IsPaused = false;
             }
             else
             {
+                m_TimeScale = Time.timeScale;
                 Time.timeScale = 0;
                 IsPaused = true;
             }
-
+            UIManager.Instance.GameUI.TogglePausePanel(IsPaused);
         }
 
     }

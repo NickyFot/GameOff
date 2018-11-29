@@ -7,6 +7,7 @@ using System;
 
 public class InGameUI : UIPanel
 {
+    private PauseMenu m_PauseMenu;
     private CountdownUI m_CountDown;
 
     private GameObject m_TimerPanel;
@@ -29,7 +30,7 @@ public class InGameUI : UIPanel
 
     public InGameUI()
     {
-         PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
+        PanelObj = UIManager.MainCanvas.transform.Find("InGameUI").gameObject;
         if(m_CountDown == null)
         {
             GameObject temp = GameObject.Instantiate(Resources.Load<GameObject>("CountDownUI"), PanelObj.transform);
@@ -43,6 +44,8 @@ public class InGameUI : UIPanel
         SetButtonMethod(m_MainMenu, MainMenuAction);
         m_NewRound = m_WinningPanel.transform.Find("NewRound").GetComponent<Button>();
         SetButtonMethod(m_NewRound, NewRoundAction);
+
+        m_PauseMenu = new PauseMenu(PanelObj.transform.Find("PausePanel").gameObject);
     }
 
     //-----Winner------------------------------------------------------------
@@ -121,12 +124,17 @@ public class InGameUI : UIPanel
         m_CountDown.OnCountdownEnd = action;
     }
 
+    public void TogglePausePanel(Boolean IsPaused)
+    {
+        m_PauseMenu.Show(IsPaused);
+    }
+
     private class PlayerPanel
     {
         private GameObject m_ParentObj;
         private Image HPbar;
         private TextMeshProUGUI PlayerName;
-        private RectTransform m_RectTransform ;
+        private RectTransform m_RectTransform;
         public Vector2 PlayerPosition;
 
         public PlayerPanel(GameObject prefab, Transform parent)
