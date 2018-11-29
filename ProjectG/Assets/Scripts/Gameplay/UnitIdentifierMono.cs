@@ -6,4 +6,5 @@ public class UnitIdentifierMono : MonoBehaviour
 {
     public int UnitID;
     public Unit UnitRef;
+    public Camera FaceCam;
 }

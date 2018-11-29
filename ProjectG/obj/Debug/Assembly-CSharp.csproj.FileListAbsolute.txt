@@ -167,3 +167,5 @@ G:\Projects\GameOff\ProjectG\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.
 G:\Projects\GameOff\ProjectG\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 G:\Projects\GameOff\ProjectG\obj\Debug\Assembly-CSharp.dll
 G:\Projects\GameOff\ProjectG\obj\Debug\Assembly-CSharp.pdb
+G:\Projects\GameOff\ProjectG\Temp\bin\Debug\Cinemachine.dll
+G:\Projects\GameOff\ProjectG\Temp\bin\Debug\com.unity.cinemachine.editor.dll

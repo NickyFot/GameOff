@@ -79,11 +79,6 @@ public class UIManager : Singleton<UIManager>
 
     //-----------------------------------------------------------------
 
-    public void CreatePlayerUIPanel(string playerName)
-    {
-        GameUI.CreatePanel(playerName);
-    }
-
     public void StartCountDown()
     {
         GameUI.StartCountDown();

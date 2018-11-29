@@ -11,6 +11,11 @@ public class UnitData
         return Resources.Load<Material>(m_MatPaths[index]);
     }
 
+    public static RenderTexture GetFaceCamTexture(int id)
+    {
+        return Resources.Load<RenderTexture>("UITextures/PlayerTex" + ( id + 1 ).ToString());
+    }
+
     // HP - Stamina...
     public string Name;
     public int Health = 100;

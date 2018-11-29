@@ -43,7 +43,7 @@ public class FightManager : Singleton<FightManager>
 
     public void SetupNewRound()
     {
-        InputManager.Instance.InputEnabled = true;
+        InputManager.Instance.InputEnabled = false;
 
         m_CurrentState = TurnState.INTRO_STATE;
         m_TurnTrigger = DataManager.Data.TurnTime;
@@ -70,7 +70,7 @@ public class FightManager : Singleton<FightManager>
                 InputManager.Instance.AssignUnitToNextController(fighter);
                 AliveFightersList.Add(fighter);
                 ActiveFightersList.Add(fighter);
-                UIManager.Instance.GameUI.CreatePanel(DataManager.Data.CharacterNames[i]);
+                UIManager.Instance.GameUI.CreatePanel(DataManager.Data.CharacterNames[i], fighter.FaceCam);
 
                 // moved here for simplicity
                 fighter.OnTakeDamage = () => { UIManager.Instance.GameUI.UpdateHpFor(fighter.Name, fighter.HealthPercentage()); };
