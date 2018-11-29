@@ -23,9 +23,4 @@ public class GameplayData : ScriptableObject
     [Header("Players")]
     public string[] CharacterNames;
 
-    public GameplayData()
-    {
-        ActualHitGroup = new AudioManager.AudioGroup(HitGroup);
-        ActualGruntGroup = new AudioManager.AudioGroup(GruntGroup);
-    }
 }
