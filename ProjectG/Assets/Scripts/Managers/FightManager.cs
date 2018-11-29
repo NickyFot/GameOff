@@ -156,7 +156,7 @@ public class FightManager : Singleton<FightManager>
                 Time.timeScale = 0;
                 IsPaused = true;
             }
-
+            UIManager.Instance.GameUI.TogglePausePanel(IsPaused);
         }
 
     }
