@@ -59,7 +59,10 @@ public class FightManager : Singleton<FightManager>
         CameraManager.Instance.InitCamera(new Vector3(0f, 6f, -6f));
         CameraManager.Instance.SetCameraPositionBoundaries(7.168935f, -7.168935f, 7.168935f, -7.168935f);
 
-        if(ActiveFightersList.Count == 0)
+        DataManager.Data.ActualHitGroup = new AudioManager.AudioGroup(DataManager.Data.HitGroup);
+        DataManager.Data.ActualGruntGroup = new AudioManager.AudioGroup(DataManager.Data.GruntGroup);
+
+        if (ActiveFightersList.Count == 0)
         {
             for(int i = 0; i < numberPlayers; i++)
             {

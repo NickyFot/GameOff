@@ -60,10 +60,12 @@ public class AudioManager : Singleton<AudioManager>
         public AudioGroup(params AudioClip[] clips)
         {
             m_Clips = clips;
+            //Debug.Log(m_Clips.Length);
         }
 
         public AudioClip GetRandomClip()
         {
+            //Debug.Log(m_Clips.Length);
             return m_Clips[UnityEngine.Random.Range(0, m_Clips.Length)];
         }
     }

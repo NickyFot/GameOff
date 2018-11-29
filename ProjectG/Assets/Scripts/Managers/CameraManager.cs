@@ -89,7 +89,7 @@ public class CameraManager : Singleton<CameraManager>
         Vector3 dir = (MainCamera.transform.position - FocalPoint).normalized;
         float cameraDistance = (m_CameraZoom * 0.5f / aspectRatio) / tanFov;
         Vector3 newPosition = FocalPoint + dir * (cameraDistance + 1f);
-        newPosition.y = Mathf.Max(newPosition.y, 3);
+        //newPosition.y = Mathf.Max(newPosition.y, 3);
         if (Mathf.Abs(newPosition.z - FocalPoint.z) < 4.5f)
         {
             newPosition.z -= 2;
@@ -101,6 +101,8 @@ public class CameraManager : Singleton<CameraManager>
                 newPosition.z -= 2;
             }
         }
+
+        newPosition.x = Mathf.Clamp(newPosition.x, -7, 5);
 
         newPosition.y += 1.5f;
 
