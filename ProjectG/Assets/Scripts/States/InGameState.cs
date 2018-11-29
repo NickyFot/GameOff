@@ -20,9 +20,11 @@ public class InGameState : GameState
 
     protected override void OnUpdate()
     {
+        FightManager.Instance.UpdateFight();
     }
 
     protected override void OnFixedUpdate()
     {
+        CameraManager.Instance.UpdateCamera();
     }
 }

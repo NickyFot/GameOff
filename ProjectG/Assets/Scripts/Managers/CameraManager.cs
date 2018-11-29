@@ -130,7 +130,10 @@ public class CameraManager : Singleton<CameraManager>
 
     public void ClearAllTargets()
     {
+        Debug.Log("CLEARING FFS");
         m_CameraTargets.Clear();
+        Debug.Log(m_CameraTargets.Count);
+
     }
 
     public void SetCameraZoom(float zoom)

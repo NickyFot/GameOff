@@ -23,7 +23,7 @@ public class InGameUI : UIPanel
     }
 
     private int m_PlayerCount = 0;
-    private Dictionary<string, PlayerPanel> playerPanels = new Dictionary<string, PlayerPanel>(4);
+    private List<PlayerPanel> m_PlayerHPPanels = new List<PlayerPanel>(4);
     private GameObject m_WinningPanel;
     private Button m_MainMenu;
     private Button m_NewRound;
@@ -59,18 +59,27 @@ public class InGameUI : UIPanel
         AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         m_WinningPanel.SetActive(false);
         FightManager.Instance.SetupNewRound();
-
     }
 
-    private void MainMenuAction()
+    public void MainMenuAction()
     {
+        Time.timeScale = 1;
         AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
-        UIManager.Instance.GameUI.HidePanel();
-        //UIManager.Instance.WaitForTransitionToEnd(TransitionIntoGame);
-        //GameManager.Instance.TransitionToNewState(State<MainMenuState>());
-        UIManager.Instance.MainMenu.ShowPanel();
+
+        HidePanel();
+        FightManager.Instance.StopGame();
+        DestroyPlayerPanels();
+
+        GameManager.Instance.GoToMainMenu();
+
+        //UIManager.Instance.WaitForTransitionToEnd(GoToMainMenu);
+    }
+
+    private void GoToMainMenu()
+    {
         GameManager.Instance.GoToMainMenu();
     }
+
 
     //-----Timer------------------------------------------------------------
 
@@ -93,7 +102,7 @@ public class InGameUI : UIPanel
         PlayerPanel panel = new PlayerPanel(hpPrefab, this.PanelObj.transform);
         panel.SetPlayerName(playerName);
         panel.FaceCamImg.texture = faceCam.targetTexture;
-        playerPanels.Add(playerName, panel);
+        m_PlayerHPPanels.Add(panel);
 
         m_PlayerCount++;
 
@@ -114,9 +123,9 @@ public class InGameUI : UIPanel
         }
     }
 
-    public void UpdateHpFor(string playerName, float hpPercentage)
+    public void UpdateHpFor(int playerId, float hpPercentage)
     {
-        playerPanels[playerName].UpdateHPBar(hpPercentage);
+        m_PlayerHPPanels[playerId].UpdateHPBar(hpPercentage);
     }
 
     public void SetOnCountdownEnd(Action action)
@@ -129,9 +138,20 @@ public class InGameUI : UIPanel
         m_PauseMenu.Show(IsPaused);
     }
 
+    public void DestroyPlayerPanels()
+    {
+        m_PlayerCount = 0;
+        for(int i = 0; i < m_PlayerHPPanels.Count; i++)
+        {
+            GameObject.Destroy(m_PlayerHPPanels[i].m_PanelObj);
+        }
+        m_PlayerHPPanels.Clear();
+    }
+
+
     private class PlayerPanel
     {
-        private GameObject m_ParentObj;
+        public GameObject m_PanelObj;
         private Image HPbar;
         private TextMeshProUGUI PlayerName;
         private RectTransform m_RectTransform;
@@ -140,12 +160,12 @@ public class InGameUI : UIPanel
 
         public PlayerPanel(GameObject prefab, Transform parent)
         {
-            m_ParentObj = GameObject.Instantiate(prefab);
-            m_ParentObj.transform.parent = parent;
-            PlayerName = m_ParentObj.transform.Find("Text").GetComponent<TextMeshProUGUI>();
-            HPbar = m_ParentObj.transform.Find("Bar level").GetComponent<Image>();
-            m_RectTransform = m_ParentObj.GetComponent<RectTransform>();
-            FaceCamImg = m_ParentObj.transform.Find("RenderTarget").GetComponent<RawImage>();
+            m_PanelObj = GameObject.Instantiate(prefab);
+            m_PanelObj.transform.parent = parent;
+            PlayerName = m_PanelObj.transform.Find("Text").GetComponent<TextMeshProUGUI>();
+            HPbar = m_PanelObj.transform.Find("Bar level").GetComponent<Image>();
+            m_RectTransform = m_PanelObj.GetComponent<RectTransform>();
+            FaceCamImg = m_PanelObj.transform.Find("RenderTarget").GetComponent<RawImage>();
         }
 
         public void SetPosition(Vector2 Position)

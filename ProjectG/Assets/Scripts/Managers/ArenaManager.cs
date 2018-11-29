@@ -15,15 +15,18 @@ public class ArenaManager : Singleton<ArenaManager>
 
     public ArenaManager()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.activeSceneChanged += OnSceneChanged;
-
         //Debug
         Arena newArena = new Arena("/Scenes/Dev/GDsTestBed", "GDsTestBed");
         m_AllArenas.Add(newArena);
     }
 
     //-----------------------------------------------------------------
+
+    public void Subscribe()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.activeSceneChanged += OnSceneChanged;
+    }
 
     public void TransitionToArena(Arena newArena)
     {
@@ -33,6 +36,8 @@ public class ArenaManager : Singleton<ArenaManager>
 
     public void TransitionToArena()
     {
+        Subscribe(); //Cheap hack - dont have time for proper solution
+
         ActiveArena = GetRandomArena();
         GameManager.Instance.TransitionToNewState(GameManager.Instance.State<TransitionState>());
     }
@@ -56,6 +61,9 @@ public class ArenaManager : Singleton<ArenaManager>
     private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
         GameManager.Instance.TransitionToNewState(GameManager.Instance.State<InGameState>());
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.activeSceneChanged -= OnSceneChanged;
     }
 
     private void OnSceneLoaded(Scene loadedScene, LoadSceneMode mode)

@@ -73,7 +73,7 @@ public class FightManager : Singleton<FightManager>
                 UIManager.Instance.GameUI.CreatePanel(DataManager.Data.CharacterNames[i], fighter.FaceCam);
 
                 // moved here for simplicity
-                fighter.OnTakeDamage = () => { UIManager.Instance.GameUI.UpdateHpFor(fighter.Name, fighter.HealthPercentage()); };
+                fighter.OnTakeDamage = () => { UIManager.Instance.GameUI.UpdateHpFor(fighter.UId.UnitID, fighter.HealthPercentage()); };
                 fighter.OnDeath = () => Die(fighter);
             }
         }
@@ -134,7 +134,6 @@ public class FightManager : Singleton<FightManager>
                 break;
             }
             case TurnState.END_STATE:
-                UIManager.Instance.GameUI.ShowWinner(true);
                 //if(Input.GetKeyDown(KeyCode.Space))
                 //{
                 //    GoToIntroState();
@@ -144,18 +143,7 @@ public class FightManager : Singleton<FightManager>
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsPaused)
-            {
-                Time.timeScale = m_TimeScale;
-                IsPaused = false;
-            }
-            else
-            {
-                m_TimeScale = Time.timeScale;
-                Time.timeScale = 0;
-                IsPaused = true;
-            }
-            UIManager.Instance.GameUI.TogglePausePanel(IsPaused);
+            TogglePause();
         }
 
     }
@@ -199,6 +187,34 @@ public class FightManager : Singleton<FightManager>
     private void GoToEndState()
     {
         m_CurrentState = TurnState.END_STATE;
+        UIManager.Instance.GameUI.ShowWinner(true);
+    }
+
+    public void TogglePause()
+    {
+        if(IsPaused)
+        {
+            Time.timeScale = m_TimeScale;
+            IsPaused = false;
+        }
+        else
+        {
+            m_TimeScale = Time.timeScale;
+            Time.timeScale = 0;
+            IsPaused = true;
+        }
+        UIManager.Instance.GameUI.TogglePausePanel(IsPaused); // This is bad coupling but let it slide for now
+    }
+
+    public void StopGame()
+    {
+        ActiveFightersList.Clear();
+        AliveFightersList.Clear();
+        CameraManager.Instance.ClearAllTargets();
+
+        Debug.Log("EEEH STOP FFS!");
+
+        //GoToEndState();
     }
 
     //-----------------------------------------------------------------

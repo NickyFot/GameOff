@@ -14,6 +14,8 @@ public class MainMenuState : GameState
         AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.MUSIC, 0);
         AudioManager.Instance.FadeChannel(AudioManager.ChannelType.MUSIC, 1, 2);
 
+        UIManager.Instance.MainMenu.ShowPanel();
+
         //debug
         //AudioManager.Instance.Play2DAudio(Resources.Load<AudioClip>("Audio/Ambience/flock-of-seagulls"), AudioManager.ChannelType.FOLLEY, true);
         //AudioManager.Instance.SetChannelVolume(AudioManager.ChannelType.FOLLEY, 0);

@@ -81,8 +81,6 @@ public class GameManager : MonoBehaviour
 
         InputM.Update();
 
-        Fight.UpdateFight();
-
         AudioM.Update();
 
         if(CurrentState == null) return;
@@ -96,7 +94,6 @@ public class GameManager : MonoBehaviour
         //    CameraM.dzEnabled = true;
         //    Debug.Log("wiiiiiii");
         //}
-        CameraM.UpdateCamera();
         if (CurrentState == null) return;
         CurrentState.FixedUpdate();
     }
@@ -125,7 +122,7 @@ public class GameManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        GameManager.Instance.TransitionToNewState(State<MainMenuState>());
+        TransitionToNewState(State<MainMenuState>());
     }
 
     //-----------------------------------------------------------------
