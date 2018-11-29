@@ -15,7 +15,17 @@ public class GameplayData : ScriptableObject
     public AudioClip MainMenuMusic;
 
     public AudioClip[] AmbientGroup;
+    public AudioClip[] HitGroup;
+    public AudioManager.AudioGroup ActualHitGroup;
+    public AudioClip[] GruntGroup;
+    public AudioManager.AudioGroup ActualGruntGroup;
 
     [Header("Players")]
     public string[] CharacterNames;
+
+    public GameplayData()
+    {
+        ActualHitGroup = new AudioManager.AudioGroup(HitGroup);
+        ActualGruntGroup = new AudioManager.AudioGroup(GruntGroup);
+    }
 }

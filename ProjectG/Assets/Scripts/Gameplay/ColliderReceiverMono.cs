@@ -25,6 +25,11 @@ public class ColliderReceiverMono : MonoBehaviour
                 if(otherUnitRef.UnitID == unit.UnitID) return; // Don't want to be hitting ourselves
 
                 otherUnitRef.UnitRef.DecreaseHealthBy(unit.UnitRef.GetDamage());
+                AudioManager.Instance.PlaySFX(DataManager.Data.ActualHitGroup.GetRandomClip());
+                AudioManager.Instance.PlaySFX(DataManager.Data.ActualGruntGroup.GetRandomClip());
+
+                //Debug.Log("HIT!");
+                
             }
         }
     }
