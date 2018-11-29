@@ -21,12 +21,15 @@ public class Controller
 
     private Unit m_Unit;
     private int m_ControllerNumber;
+    private int m_ControllerMod;
+
 
     //-----------------------------------------------------------------
 
     public Controller(int controllerNumber)
     {
-        m_ControllerNumber = controllerNumber * 20;
+        m_ControllerNumber = controllerNumber;
+        m_ControllerMod = controllerNumber * 20;
 
         ButtonA = new InputCommand();
         ButtonB = new InputCommand();
@@ -45,17 +48,17 @@ public class Controller
     public void UpdateInput()
     {
         if(m_Unit == null) return;
-        AxisX = Input.GetAxis("Horizontal");
-        AxisY = Input.GetAxis("Vertical");
+        AxisX = Input.GetAxis("Horizontal" + m_ControllerNumber);
+        AxisY = Input.GetAxis("Vertical" + m_ControllerNumber);
 
-        if(Input.GetKeyDown((KeyCode) 350 + m_ControllerNumber)) ButtonA.Execute(m_Unit);
-        if(Input.GetKeyDown((KeyCode) 351 + m_ControllerNumber)) ButtonB.Execute(m_Unit);
-        if(Input.GetKeyDown((KeyCode) 352 + m_ControllerNumber)) ButtonX.Execute(m_Unit);
-        if(Input.GetKeyDown((KeyCode) 353 + m_ControllerNumber)) ButtonY.Execute(m_Unit);
-        if(Input.GetKeyDown((KeyCode) 354 + m_ControllerNumber)) ButtonLB.Execute(m_Unit);
-        if(Input.GetKeyDown((KeyCode) 355 + m_ControllerNumber)) ButtonRB.Execute(m_Unit);
-        if(Input.GetKeyDown((KeyCode) 356 + m_ControllerNumber)) ButtonBack.Execute(m_Unit);
-        if(Input.GetKeyDown((KeyCode) 357 + m_ControllerNumber)) ButtonStart.Execute(m_Unit);
+        if(Input.GetKeyDown((KeyCode) 350 + m_ControllerMod)) ButtonA.Execute(m_Unit);
+        if(Input.GetKeyDown((KeyCode) 351 + m_ControllerMod)) ButtonB.Execute(m_Unit);
+        if(Input.GetKeyDown((KeyCode) 352 + m_ControllerMod)) ButtonX.Execute(m_Unit);
+        if(Input.GetKeyDown((KeyCode) 353 + m_ControllerMod)) ButtonY.Execute(m_Unit);
+        if(Input.GetKeyDown((KeyCode) 354 + m_ControllerMod)) ButtonLB.Execute(m_Unit);
+        if(Input.GetKeyDown((KeyCode) 355 + m_ControllerMod)) ButtonRB.Execute(m_Unit);
+        if(Input.GetKeyDown((KeyCode) 356 + m_ControllerMod)) ButtonBack.Execute(m_Unit);
+        if(Input.GetKeyDown((KeyCode) 357 + m_ControllerMod)) ButtonStart.Execute(m_Unit);
     }
 
     //-----------------------------------------------------------------

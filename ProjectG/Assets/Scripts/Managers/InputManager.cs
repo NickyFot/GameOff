@@ -35,7 +35,7 @@ public class InputManager : Singleton<InputManager>
         }
 
 #if UNITY_EDITOR
-        DebugUpdate(0);
+        //DebugUpdate(0);
 #endif
 
     }
