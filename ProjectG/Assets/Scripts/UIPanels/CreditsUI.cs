@@ -24,5 +24,6 @@ public class CreditsUI : UIPanel
         AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.Credits.HidePanel();
         UIManager.Instance.MainMenu.ShowPanel();
+        p_CamSelector.SelectCamera(0);
     }
 }

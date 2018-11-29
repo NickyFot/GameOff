@@ -32,6 +32,18 @@ public abstract class UIPanel
         UIManager.Instance.FadeOutUI(PanelObj, 0.8f, true);
     }
 
+    private CamSelector m_Selector;
+    protected CamSelector p_CamSelector
+    {
+        get
+        {
+            if(m_Selector == null)
+            {
+                m_Selector = GameObject.FindObjectOfType<CamSelector>();
+            }
+            return m_Selector;
+        }
+    }
     //-----------------------------------------------------------------
 
     protected void SetButtonMethod( Button button, UnityAction action )

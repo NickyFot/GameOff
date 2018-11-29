@@ -35,6 +35,7 @@ public class MainMenuUI : UIPanel
         AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.MainMenu.HidePanel();
         UIManager.Instance.PlaySettings.ShowPanel();
+        p_CamSelector.SelectCamera(1);
         //UIManager.Instance.WaitForTransitionToEnd(TransitionIntoGame);
     }
 
@@ -49,6 +50,7 @@ public class MainMenuUI : UIPanel
         AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
         UIManager.Instance.MainMenu.HidePanel();
         UIManager.Instance.Credits.ShowPanel();
+        p_CamSelector.SelectCamera(2);
     }
 
     private void ExitAction()

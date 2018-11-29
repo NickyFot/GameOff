@@ -36,20 +36,14 @@ public class FightManager : Singleton<FightManager>
 
     public FightManager()
     {
-        //if(DataManager == null)
-        //{
-        //    DataManager = Resources.Load<GameplayData>("ScriptableObjects/GameplayData");
-        //}
-
         UIManager.Instance.GameUI.SetOnCountdownEnd(StartFight);
     }
 
     //-----------------------------------------------------------------
 
-    // TO - DO: ADD LEVEL PARAM
     public void SetupNewRound()
     {
-        InputManager.Instance.InputEnabled = false;
+        InputManager.Instance.InputEnabled = true;
 
         m_CurrentState = TurnState.INTRO_STATE;
         m_TurnTrigger = DataManager.Data.TurnTime;
@@ -69,7 +63,7 @@ public class FightManager : Singleton<FightManager>
         {
             for(int i = 0; i < numberPlayers; i++)
             {
-                Unit fighter = new PlayerUnit("SharkDude", DataManager.Data.CharacterNames[i], i, SpawnPointList[i % 2]);
+                Unit fighter = new PlayerUnit("SharkDude", DataManager.Data.CharacterNames[i], i, SpawnPointList[i]);
                 InputManager.Instance.AssignUnitToNextController(fighter);
                 AliveFightersList.Add(fighter);
                 ActiveFightersList.Add(fighter);
@@ -137,10 +131,11 @@ public class FightManager : Singleton<FightManager>
                 break;
             }
             case TurnState.END_STATE:
-                if(Input.GetKeyDown(KeyCode.Space))
-                {
-                    GoToIntroState();
-                }
+                UIManager.Instance.GameUI.ShowWinner(true);
+                //if(Input.GetKeyDown(KeyCode.Space))
+                //{
+                //    GoToIntroState();
+                //}
                 break;
         }
 
@@ -166,7 +161,7 @@ public class FightManager : Singleton<FightManager>
     private void StartFight()
     {
         InputManager.Instance.InputEnabled = true;
-        Debug.Log("START");
+        //Debug.Log("START");
         GoToTimeStoppedState();
     }
 
@@ -183,7 +178,7 @@ public class FightManager : Singleton<FightManager>
         Time.fixedDeltaTime = 0.02F * Time.timeScale;
         InputManager.Instance.InputEnabled = true;
         UIManager.Instance.GameUI.ShowTurnTimer(true);
-        Debug.Log("MOVING TO FIGHT_STOP");
+        //Debug.Log("MOVING TO FIGHT_STOP");
     }
 
     private void GoToTimeRunningState()
@@ -194,7 +189,7 @@ public class FightManager : Singleton<FightManager>
         Time.fixedDeltaTime = 0.02F;
         InputManager.Instance.InputEnabled = false;
         UIManager.Instance.GameUI.ShowTurnTimer(false);
-        Debug.Log("MOVING TO FIGHT_RUN");
+        //Debug.Log("MOVING TO FIGHT_RUN");
     }
 
     private void GoToEndState()

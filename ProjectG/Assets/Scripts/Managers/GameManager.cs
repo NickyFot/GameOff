@@ -123,5 +123,10 @@ public class GameManager : MonoBehaviour
         return m_StateDictionary.Contains<T>();
     }
 
+    public void GoToMainMenu()
+    {
+        GameManager.Instance.TransitionToNewState(State<MainMenuState>());
+    }
+
     //-----------------------------------------------------------------
 }

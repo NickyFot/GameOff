@@ -72,10 +72,16 @@ public abstract class Unit
     private float m_InvulnerableTrigger = 1.5f;
     private float m_InvulnerableTimer;
 
+    private Limb m_LastAttackedLimb;
+
     // -- Movement Vars
     private float m_CurrentRotAngle;
     private float m_TargetRotAngle;
     private float m_TargetRotVel;
+
+    private float m_CurrenttVel;
+    private float m_TargetVel;
+    private float m_VelRef;
 
     // -- IK Vars
 
@@ -107,6 +113,10 @@ public abstract class Unit
     public void Update()
     {
         if(IsDead) return;
+
+        m_CurrenttVel = Mathf.SmoothDamp(m_CurrenttVel, m_TargetVel, ref m_VelRef, 0.5f);
+        p_UnitAnimator.SetFloat(AnimationID.MoveSpeed, m_CurrenttVel);
+
         if(IsAttacking)
         {
             m_AttackTimer += Time.deltaTime;
@@ -135,10 +145,14 @@ public abstract class Unit
         if(m_IsInvulnerable) return;
         if (value > Data.Health) {
             Data.Health = 0;
-            OnDeath();
         }
         else {
             Data.Health -= value;
+        }
+
+        if(Data.Health == 0)
+        {
+            OnDeath();
         }
 
         p_Puppet.state = Data.Health == 0 ? PuppetMaster.State.Dead : PuppetMaster.State.Alive;
@@ -169,6 +183,27 @@ public abstract class Unit
     public float HealthPercentage()
     {
         return (float)Data.Health / (float)Data.MaxHealth;
+    }
+
+    public int GetDamage() // eer not the best but will do for now
+    {
+        switch(m_LastAttackedLimb)
+        {
+            case Limb.HEAD:
+                return 10;
+            case Limb.TORSO:
+                return 0;
+            case Limb.RIGHT_ARM:
+                return 5;
+            case Limb.LEFT_ARM:
+                return 8;
+            case Limb.RIGHT_LEG:
+                return 10;
+            case Limb.LEFT_LEG:
+                return 10;
+            default:
+                return 0;
+        }
     }
 
     //-- COMMAND QUEUE -----------------------------------------------------------
@@ -210,7 +245,7 @@ public abstract class Unit
         Vector3 dir = new Vector3(y, 0, -x);
         float speed = dir.magnitude;
 
-        p_UnitAnimator.SetFloat(AnimationID.MoveSpeed, speed);
+        m_TargetVel = speed;
 
         if(dir.x != 0 || dir.z != 0)
         {
@@ -258,6 +293,7 @@ public abstract class Unit
         string animID = AnimationID.GetAttackLimb(limb);
         if(animID == null) return;
 
+        m_LastAttackedLimb = limb;
         p_UnitAnimator.SetTrigger(animID);
         m_AttackTrigger = 1.2f; //UnitAnimator.GetCurrentAnimatorClipInfo(0).Length;
         IsAttacking = true;
