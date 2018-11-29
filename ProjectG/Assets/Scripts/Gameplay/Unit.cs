@@ -71,7 +71,7 @@ public abstract class Unit
     private float m_AttackTimer;
 
     private bool m_IsInvulnerable;
-    private float m_InvulnerableTrigger = 1.5f;
+    private float m_InvulnerableTrigger = 1.2f;
     private float m_InvulnerableTimer;
 
     private Limb m_LastAttackedLimb;
@@ -320,6 +320,7 @@ public abstract class Unit
         if(animID == null) return;
 
         p_UnitAnimator.SetTrigger(animID);
+        m_IsInvulnerable = true;
     }
 
 

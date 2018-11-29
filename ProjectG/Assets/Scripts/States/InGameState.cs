@@ -16,6 +16,7 @@ public class InGameState : GameState
 
     protected override void OnEnd()
     {
+        AudioManager.Instance.StopChannel(AudioManager.ChannelType.MUSIC);
     }
 
     protected override void OnUpdate()
