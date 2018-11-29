@@ -37,6 +37,8 @@ public abstract class Unit
     public Action OnTakeDamage = delegate { };
     public Action OnDeath = delegate { };
 
+    public Camera FaceCam;
+
     // -- Gameplay Vars
     public UnitIdentifierMono UId { get; private set; }
 
@@ -98,6 +100,9 @@ public abstract class Unit
         UId = UnitParentObj.GetComponent<UnitIdentifierMono>();
         UId.UnitID = unitID;
         UId.UnitRef = this;
+
+        FaceCam = UId.FaceCam;
+        FaceCam.targetTexture = UnitData.GetFaceCamTexture(unitID);
 
         p_SkinnedMeshes = UnitParentObj.GetComponentsInChildren<SkinnedMeshRenderer>();
         Material mat = UnitData.GetMaterial(unitID);

@@ -87,12 +87,12 @@ public class InGameUI : UIPanel
 
     //------Player Panels-----------------------------------------------------------
 
-    public void CreatePanel(string playerName)
+    public void CreatePanel(string playerName, Camera faceCam)
     {
         GameObject hpPrefab = Resources.Load<GameObject>("PlayerHP");
         PlayerPanel panel = new PlayerPanel(hpPrefab, this.PanelObj.transform);
         panel.SetPlayerName(playerName);
-
+        panel.FaceCamImg.texture = faceCam.targetTexture;
         playerPanels.Add(playerName, panel);
 
         m_PlayerCount++;
@@ -136,6 +136,7 @@ public class InGameUI : UIPanel
         private TextMeshProUGUI PlayerName;
         private RectTransform m_RectTransform;
         public Vector2 PlayerPosition;
+        public RawImage FaceCamImg { get; private set; }
 
         public PlayerPanel(GameObject prefab, Transform parent)
         {
@@ -143,7 +144,8 @@ public class InGameUI : UIPanel
             m_ParentObj.transform.parent = parent;
             PlayerName = m_ParentObj.transform.Find("Text").GetComponent<TextMeshProUGUI>();
             HPbar = m_ParentObj.transform.Find("Bar level").GetComponent<Image>();
-            m_RectTransform = m_ParentObj.transform.Find("").GetComponent<RectTransform>();
+            m_RectTransform = m_ParentObj.GetComponent<RectTransform>();
+            FaceCamImg = m_ParentObj.transform.Find("RenderTarget").GetComponent<RawImage>();
         }
 
         public void SetPosition(Vector2 Position)
@@ -160,15 +162,14 @@ public class InGameUI : UIPanel
         {
             HPbar.fillAmount = hpPercentage;
         }
-
     }
 
     private struct PanelPositions
     {
-        public static Vector2 Player1Center = new Vector2(370 / 2, Screen.height - (55 / 2));
-        public static Vector2 Player2Center = new Vector2(Screen.width - 370 / 2, Screen.height - (55 / 2));
-        public static Vector2 Player3Center = new Vector2(370 / 2, 55 / 2);
-        public static Vector2 Player4Center = new Vector2(Screen.width - 370 / 2, 55 / 2);
+        public static Vector2 Player1Center = new Vector2(447 / 2, Screen.height - (128 / 2));
+        public static Vector2 Player2Center = new Vector2(Screen.width - 447 / 2, Screen.height - ( 128 / 2));
+        public static Vector2 Player3Center = new Vector2(447 / 2, 128 / 2);
+        public static Vector2 Player4Center = new Vector2(Screen.width - 447 / 2, 128 / 2);
     }
 
 }
