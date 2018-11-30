@@ -17,6 +17,13 @@ public class ScenesShortcuts
     {
         OpenScene("Assets/Scenes/Main.unity");
     }
+
+    [MenuItem("Scenes/Splash", priority = 51)]
+    private static void Splash()
+    {
+        OpenScene("Assets/Scenes/Splash.unity");
+    }
+
     [MenuItem("Scenes/Main Menu", priority = 51)]
     private static void Main_Menu()
     {

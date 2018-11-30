@@ -174,7 +174,7 @@ public class UIManager : Singleton<UIManager>
             for(int i = 0; i < m_FadeDetailsList.Count; i++)
             {
                 float alpha = m_FadeDetailsList[i].go.GetComponent<CanvasGroup>() != null ? m_FadeDetailsList[i].go.GetComponent<CanvasGroup>().alpha : m_FadeDetailsList[i].go.GetComponent<SpriteRenderer>().color.a;
-                m_FadeDetailsList[i].FadeTimer = Mathf.Min(1.0f, m_FadeDetailsList[i].FadeTimer + Time.deltaTime * FADE_SPEED);
+                m_FadeDetailsList[i].FadeTimer = Mathf.Min(1.0f, m_FadeDetailsList[i].FadeTimer + Time.deltaTime * m_FadeDetailsList[i].FadeSpeed);
 
                 if(m_FadeDetailsList[i].IsFadeIn)
                 {
