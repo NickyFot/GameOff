@@ -51,7 +51,7 @@ public class InGameUI : UIPanel
     //-----Winner------------------------------------------------------------
     public void ShowWinner(bool enable)
     {
-        m_WinningPanel.SetActive(enable);
+        UIManager.Instance.FadeInUI(m_WinningPanel, 0.6f, true);
     }
 
     private void NewRoundAction()
@@ -65,6 +65,9 @@ public class InGameUI : UIPanel
     {
         Time.timeScale = 1;
         AudioManager.Instance.Play2DAudio(p_ButtonClick, AudioManager.ChannelType.FX);
+
+        m_WinningPanel.SetActive(false);
+        m_PauseMenu.Show(false);
 
         HidePanel();
         FightManager.Instance.StopGame();

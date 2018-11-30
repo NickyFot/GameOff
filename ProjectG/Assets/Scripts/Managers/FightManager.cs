@@ -83,6 +83,11 @@ public class FightManager : Singleton<FightManager>
             CameraManager.Instance.AddTarget(ActiveFightersList[i].UnitObj);
             ActiveFightersList[i].ResetHealth();
             ActiveFightersList[i].ResetQueue();
+            ActiveFightersList[i].SetWinDance(false);
+            if(!AliveFightersList.Contains(ActiveFightersList[i]))
+            {
+                AliveFightersList.Add(ActiveFightersList[i]);
+            }
         }
         UIManager.Instance.GameUI.ShowPanel();
         UIManager.Instance.StartCountDown();
@@ -95,6 +100,11 @@ public class FightManager : Singleton<FightManager>
         for(int i = 0; i < AliveFightersList.Count; i++)
         {
             AliveFightersList[i].Update();
+        }
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            AliveFightersList[0].DecreaseHealthBy(1000);
         }
 
         switch(m_CurrentState)
@@ -187,6 +197,7 @@ public class FightManager : Singleton<FightManager>
     private void GoToEndState()
     {
         m_CurrentState = TurnState.END_STATE;
+        Time.timeScale = 1;
         UIManager.Instance.GameUI.ShowWinner(true);
     }
 
@@ -211,10 +222,6 @@ public class FightManager : Singleton<FightManager>
         ActiveFightersList.Clear();
         AliveFightersList.Clear();
         CameraManager.Instance.ClearAllTargets();
-
-        Debug.Log("EEEH STOP FFS!");
-
-        //GoToEndState();
     }
 
     //-----------------------------------------------------------------
@@ -239,6 +246,7 @@ public class FightManager : Singleton<FightManager>
         Debug.Log("DEATH!!");
         if(AliveFightersList.Count == 1)
         {
+            AliveFightersList[0].SetWinDance(true);
             GoToEndState();
         }
     }

@@ -211,6 +211,12 @@ public abstract class Unit
         }
     }
 
+    public void SpawnSmoke(Vector3 pos)
+    {
+        if(m_IsInvulnerable) return;
+        GameObject.Instantiate(UnitData.SmokePrefab, pos, Quaternion.identity);
+    }
+
     //-- COMMAND QUEUE -----------------------------------------------------------
 
     public void UpdateQueue()
@@ -357,7 +363,16 @@ public abstract class Unit
 
     #endregion
 
+    //-- MISC FUNCTIONS ------------------------------------------------------------
+
+    public void SetWinDance(bool isWinning)
+    {
+        UnitObj.transform.rotation = Quaternion.Euler(0, 180, 0);
+        p_UnitAnimator.SetBool("WinDance", isWinning);
+    }
+
     //-- IK FUNCTIONS ------------------------------------------------------------
+
 
     public void UpdateIK()
     {
