@@ -26,12 +26,15 @@ public class InputManager : Singleton<InputManager>
 
     public void Update()
     {
-        if(!InputEnabled) return;
         for(int i = 0; i < m_ActiveControllerList.Count; i++)
         {
             if(m_ActiveControllerList[i].GetUnit() == null) continue;
-            m_ActiveControllerList[i].UpdateInput();
+
+            m_ActiveControllerList[i].UpdateMoveInput();
             MoveCommand(m_ActiveControllerList[i].GetUnit(), m_ActiveControllerList[i].AxisX, m_ActiveControllerList[i].AxisY);
+
+            if(!InputEnabled) continue;
+            m_ActiveControllerList[i].UpdateCommandInput();
         }
 
 #if UNITY_EDITOR

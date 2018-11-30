@@ -274,7 +274,6 @@ public abstract class Unit
         m_CurrentRotAngle = Mathf.SmoothDampAngle(m_CurrentRotAngle, m_TargetRotAngle, ref m_TargetRotVel, m_RotationSpeed);
         UnitObj.transform.rotation = Quaternion.Euler(0, m_CurrentRotAngle, 0);
 
-
         //m_TargetRotAngle = Vector3.Angle(UnitObj.transform.forward, dir) - 90;
 
         //Vector3 cross = Vector3.Cross(UnitObj.transform.forward, dir);

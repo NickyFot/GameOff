@@ -42,6 +42,8 @@ public class AudioManager : Singleton<AudioManager>
     private Queue<NaratorVOClip> m_QueuedNaratorVO = new Queue<NaratorVOClip>();
     private NaratorVOClip m_CurrentVO = null;
 
+    private AudioMixerSnapshot[] m_Snaps;
+
     // Fade Variables
     private class FadeInfo
     {
@@ -115,6 +117,11 @@ public class AudioManager : Singleton<AudioManager>
             }
         }
 
+        MainMixer = Resources.Load<AudioMixer>("MainMixer");
+
+        m_Snaps = new AudioMixerSnapshot[2];
+        m_Snaps[0] = MainMixer.FindSnapshot("Normal");
+        m_Snaps[1] = MainMixer.FindSnapshot("Pause");
         //m_AData = Resources.Load<AudioData>("ScriptableObjects/AudioData");
     }
 
@@ -168,6 +175,7 @@ public class AudioManager : Singleton<AudioManager>
         trackToPlay.pitch = 1;
         trackToPlay.clip = clip;
         trackToPlay.loop = loop;
+        trackToPlay.outputAudioMixerGroup = GetMixerGroup(type);
         trackToPlay.Play();
     }
 
@@ -186,6 +194,7 @@ public class AudioManager : Singleton<AudioManager>
         trackToPlay.pitch = 1;
         trackToPlay.clip = clip;
         trackToPlay.loop = loop;
+        trackToPlay.outputAudioMixerGroup = GetMixerGroup(type);
         trackToPlay.Play();
     }
 
@@ -212,6 +221,7 @@ public class AudioManager : Singleton<AudioManager>
         trackToPlay.pitch = 1;
         trackToPlay.clip = clip;
         trackToPlay.loop = loop;
+        trackToPlay.outputAudioMixerGroup = GetMixerGroup(ChannelType.FX);
         trackToPlay.Play();
     }
 
@@ -238,6 +248,7 @@ public class AudioManager : Singleton<AudioManager>
         trackToPlay.pitch = 1;
         trackToPlay.clip = clip;
         trackToPlay.loop = loop;
+        trackToPlay.outputAudioMixerGroup = GetMixerGroup(ChannelType.FX);
         trackToPlay.Play();
     }
 
@@ -309,6 +320,7 @@ public class AudioManager : Singleton<AudioManager>
         source.pitch = 1;
         source.loop = loop;
         source.clip = clip;
+        source.outputAudioMixerGroup = GetMixerGroup(ChannelType.FX);
         source.Play();
     }
 
@@ -325,6 +337,7 @@ public class AudioManager : Singleton<AudioManager>
         source.pitch = 1;
         source.loop = loop;
         source.clip = clip;
+        source.outputAudioMixerGroup = GetMixerGroup(ChannelType.FX);
         source.Play();
     }
 
@@ -415,15 +428,33 @@ public class AudioManager : Singleton<AudioManager>
     /// </summary>
     /// <param name="snapshotName"> The name of the snapshot (case sensitive)</param>
     /// <param name="blendTime"> Time to blend to the new snapshot</param>
-    public void EnableSnapshot(string snapshotName, float blendTime)
+    public void EnableSnapshot(int snapIndex, float blendTime)
     {
         if(MainMixer == null)
         {
             Debug.LogError("There is no available mixer or it is not assigned correctly.");
             return;
         }
-        AudioMixerSnapshot snap = MainMixer.FindSnapshot(snapshotName);
-        snap.TransitionTo(blendTime);
+        m_Snaps[snapIndex].TransitionTo(0);
+    }
+
+    private AudioMixerGroup GetMixerGroup(ChannelType type)
+    {
+        switch(type)
+        {
+            case ChannelType.MUSIC:
+                return MainMixer.FindMatchingGroups("Music")[0];
+            case ChannelType.AMBIENCE:
+                return MainMixer.FindMatchingGroups("Ambience")[0];
+            case ChannelType.FOLLEY:
+                return MainMixer.FindMatchingGroups("Folley")[0];
+            case ChannelType.FX:
+                return MainMixer.FindMatchingGroups("SFX")[0];
+            case ChannelType.VO:
+                return MainMixer.FindMatchingGroups("VO")[0];
+            default:
+                return null;
+        }
     }
 
     /// <summary>

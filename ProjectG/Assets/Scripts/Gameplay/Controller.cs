@@ -45,12 +45,9 @@ public class Controller
 
     //-----------------------------------------------------------------
 
-    public void UpdateInput()
+    public void UpdateCommandInput()
     {
         if(m_Unit == null) return;
-        AxisX = Input.GetAxis("Horizontal" + m_ControllerNumber);
-        AxisY = Input.GetAxis("Vertical" + m_ControllerNumber);
-
         if(Input.GetKeyDown((KeyCode) 350 + m_ControllerMod)) ButtonA.Execute(m_Unit);
         if(Input.GetKeyDown((KeyCode) 351 + m_ControllerMod)) ButtonB.Execute(m_Unit);
         if(Input.GetKeyDown((KeyCode) 352 + m_ControllerMod)) ButtonX.Execute(m_Unit);
@@ -59,6 +56,13 @@ public class Controller
         if(Input.GetKeyDown((KeyCode) 355 + m_ControllerMod)) ButtonRB.Execute(m_Unit);
         if(Input.GetKeyDown((KeyCode) 356 + m_ControllerMod)) ButtonBack.Execute(m_Unit);
         if(Input.GetKeyDown((KeyCode) 357 + m_ControllerMod)) ButtonStart.Execute(m_Unit);
+    }
+
+    public void UpdateMoveInput()
+    {
+        if(m_Unit == null) return;
+        AxisX = Input.GetAxis("Horizontal" + m_ControllerNumber);
+        AxisY = Input.GetAxis("Vertical" + m_ControllerNumber);
     }
 
     //-----------------------------------------------------------------

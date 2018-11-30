@@ -102,10 +102,12 @@ public class FightManager : Singleton<FightManager>
             AliveFightersList[i].Update();
         }
 
+#if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.K))
         {
             AliveFightersList[0].DecreaseHealthBy(1000);
         }
+#endif
 
         switch(m_CurrentState)
         {

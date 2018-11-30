@@ -139,6 +139,8 @@ public class InGameUI : UIPanel
     public void TogglePausePanel(Boolean IsPaused)
     {
         m_PauseMenu.Show(IsPaused);
+        int snap = IsPaused ? 1 : 0;
+        AudioManager.Instance.EnableSnapshot(snap, 0.1f);
     }
 
     public void DestroyPlayerPanels()

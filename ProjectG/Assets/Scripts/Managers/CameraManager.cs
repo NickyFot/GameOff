@@ -92,17 +92,17 @@ public class CameraManager : Singleton<CameraManager>
         //newPosition.y = Mathf.Max(newPosition.y, 3);
         if (Mathf.Abs(newPosition.z - FocalPoint.z) < 4.5f)
         {
-            newPosition.z -= 2;
+            newPosition.z -= 1.5f;
         }
         for(int i = 0; i < m_CameraTargets.Count; i++)
         {
             if(newPosition.z - m_CameraTargets[i].transform.position.z < 4.5f)
             {
-                newPosition.z -= 2;
+                newPosition.z -= 1.5f;
             }
         }
 
-        newPosition.x = Mathf.Clamp(newPosition.x, -7, 5);
+        newPosition.x = Mathf.Clamp(newPosition.x, -5, 5);
 
         newPosition.y += 1.5f;
 
